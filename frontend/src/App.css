@@ -1,0 +1,50 @@
+#CSS
+.app-container {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.background-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.content-container {
+  position: relative;
+  z-index: 10;
+  color: white;
+  text-align: center;
+  padding-top: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 75vh;
+}
+.flex-row{
+  padding-top: 30px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.buttons{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: 1px solid white;
+  border-radius: 30px;
+}
+
+
+.buttons:hover{
+  cursor: pointer;
+}

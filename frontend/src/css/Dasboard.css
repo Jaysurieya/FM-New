@@ -1,0 +1,19 @@
+.dash-container {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+.navbar-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    padding: 20px;
+}
+
+.dash-navbar {
+    padding-top: 10px;
+}

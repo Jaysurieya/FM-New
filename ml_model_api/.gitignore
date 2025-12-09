@@ -1,0 +1,31 @@
+# Bytecode files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Operating System and IDE files
+.DS_Store
+.vscode/
+.idea/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Common data and logs
+data/
+logs/
+.log
+
+# Virtual environment directory
+venv/
+food_classifier_final_model.keras
+# Python files to ignore
+__pycache__/
+*.pyc
+
+# Common IDE files to ignore
+.vscode/
+
+# Common ML/data science files
+.ipynb_checkpoints/

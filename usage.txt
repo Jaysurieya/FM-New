@@ -1,0 +1,93 @@
+for about us ---> Animated Testimonials from aceternity ui
+landing page background --->  background beams
+place holder scroll
+side bar
+tracing beam
+
+
+
+
+bentogrid
+comet card 
+expandable cards
+flip words
+floating dock
+focus cards
+link preview
+loader
+moving border
+multi step loader
+stateful button
+sticky banner
+sticky scroll reveal
+svg mask reveal
+time line   
+typre writer
+modal dialog - framer
+
+
+documentation:
+
+1st august ---> dataset preparation
+2nd august ---> dataset preprocessing :
+
+doing data augumentation for classes having less images
+doing undersampling for the classes having more images
+
+these r not done by locally saving this is done by "on the fly approach"
+
+model changed to efficientnet-b0
+and it took about 5 hours of training
+
+planned about the next steps [and also studied for tomorrows exam]
+
+.... 
+
+running ml model ---> create a virtual environment
+venv
+activate venv scripts
+flask install 
+model and classes in the same folder
+python app.py
+check for the port in the backend and use different port for backend and app.py
+
+code for accessing the camera: ---> navigator.mediaDevices.getUserMedia({ video: true });
+------------------------------
+
+import React, { useRef } from "react";
+
+export default function CameraComponent() {
+  const videoRef = useRef(null);
+
+  const openCamera = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        videoRef.current.play();
+      }
+    } catch (error) {
+      console.error("Camera access denied or not available:", error);
+      alert("Unable to access camera. Please allow camera permissions.");
+    }
+  };
+
+  const stopCamera = () => {
+    if (videoRef.current && videoRef.current.srcObject) {
+      let tracks = videoRef.current.srcObject.getTracks();
+      tracks.forEach((track) => track.stop()); // stop all tracks
+      videoRef.current.srcObject = null;
+    }
+  };
+
+  return (
+    <div>
+      <video ref={videoRef} width="400" autoPlay></video>
+      <br />
+      <button onClick={openCamera}>Open Camera</button>
+      <button onClick={stopCamera}>Stop Camera</button>
+    </div>
+  );
+}
+
+////////

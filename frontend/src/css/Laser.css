@@ -1,0 +1,49 @@
+.laser-container {
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: #060010;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-box {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 86%;
+  height: 60%;
+  max-width: 1200px;
+  background-color: #060010;
+  border-radius: 20px;
+  border: 2px solid rgb(0, 213, 228);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 2rem;
+  z-index: 6;
+  box-shadow: 0 0 30px rgba(255, 121, 198, 0.2);
+}
+
+/* Media query for better responsiveness */
+@media (max-width: 768px) {
+  .hero-box {
+    width: 92%;
+    height: 70%;
+  }
+}
+
+/*
+  This query targets extra-small devices like iPhones in portrait mode.
+*/
+@media (max-width: 480px) {
+  .hero-box {
+    
+    font-size: 1rem;
+    flex-direction: column;
+  }
+}
