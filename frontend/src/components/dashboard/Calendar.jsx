@@ -1,5 +1,6 @@
 import React from "react";
 import "./css/Calendar.css"; // <- make sure to create this file
+import "@fontsource/alkatra"; 
 
 const Calendar = () => {
   const today = new Date();
