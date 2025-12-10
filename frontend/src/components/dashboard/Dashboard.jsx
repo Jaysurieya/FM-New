@@ -4,17 +4,25 @@ import AIChatInput from './Ai';
 import TextType from './Texttype';
 import Calendar from './Calendar';
 import "@fontsource/alkatra"; 
-import plate from '../../assets/pla.svg';
+import plate from '../../assets/final_plate_2.svg';
 
 
 function Dashboard() {
   const [isExpanded, setIsExpanded] = useState(false);
 
-
+  // change these to control the plate image exact manual size:
+  const PLATE_WIDTH = 750;   // px
+  const PLATE_HEIGHT = 650;  // px
 
   return (
-    
-    <div style={{ display: 'flex', height: '100vh', fontFamily: 'Alkatra',backgroundColor:'#FFE8D6',border: '5px solid #492110' }}>
+    <div style={{
+      display: 'flex',
+      height: '100vh',
+      fontFamily: 'Alkatra',
+      backgroundColor:'#FFE8D6',
+      border: '5px solid #492110',
+      position: 'relative' // keeps absolutely-positioned plate inside this container
+    }}>
       {/* Sidebar */}
       <div 
         onMouseEnter={() => setIsExpanded(true)}
@@ -33,7 +41,6 @@ function Dashboard() {
         top: 0,
         bottom: 0,
         zIndex: 1000,
-        //boxShadow: isExpanded ? (isDarkMode ? '4px 0 20px rgba(0, 0, 0, 0.5)' : '4px 0 20px rgba(0, 0, 0, 0.1)') : 'none'
       }}>
         {/* Header */}
         <div style={{
@@ -129,22 +136,10 @@ function Dashboard() {
         overflowY: 'auto',
         transition: 'all 0.3s ease',
         marginLeft: '80px',
-        
+        position: 'relative',    // content sits above plate
+        zIndex: 2                 // ensure main content is above the plate (sidebar is 1000)
       }}>
         
-        {/* <div style={{
-          borderRadius:"10px",
-          backgroundColor : "#f5f5f5",
-          width:"65%",
-          paddingTop:"20px",
-          display:"flex",
-          flexDirection:"column",
-          height: "80vh",
-          minHeight: "400px",
-          overflow: "hidden"
-          }}>
-          <AIChatInput />
-        </div> */}
         <div  style={{display: 'flex', flexDirection: 'row'}}>
           <div style={{display: 'flex', flexDirection: 'column'}}>
             <h1 style={{
@@ -167,6 +162,45 @@ function Dashboard() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Plate SVG — BOTTOM LEFT, manual width/height set via PLATE_WIDTH / PLATE_HEIGHT */}
+      <div
+        style={{
+          position: 'absolute',
+          left: 20,
+          bottom: 0,
+          width: `${PLATE_WIDTH}px`,
+          height: `${PLATE_HEIGHT}px`,
+          display: 'flex',
+          alignItems: 'flex-end',
+          justifyContent: 'flex-start',
+          pointerEvents: 'none',
+          zIndex: 2,
+          overflowY: 'hidden'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.cursor = 'pointer';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.cursor = 'default';
+        }}
+      >
+
+
+        <img
+          src={plate}
+          alt="Plate"
+          style={{
+            width: `${PLATE_WIDTH}px`,
+            height: `${PLATE_HEIGHT}px`,
+            objectFit: 'contain',
+            opacity: 1,
+            userSelect: 'none',
+            pointerEvents: 'none',
+            display: 'block'
+          }}
+        />
       </div>
     </div>
   );
