@@ -1,9 +1,10 @@
 .calendar-wrapper {
   width: 320px;
-  padding: 16px;
-  border-radius: 12px;
-  background: rgba(113, 0, 205, 0.9); /* dark bg so white pops */
-  color: #fff;
+  padding: 16px;  
+  border: 8px solid #492110;
+  border-radius: 15px;
+  background: #FFCBAE; /* dark bg so white pops */
+  color: #492110;
   font-family: 'Alkatra', sans-serif; /* 👉 Alkatra font */
 }
 
@@ -32,7 +33,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ffffff;      /* 👉 numbers in white */
+  color: #492110;      /* 👉 numbers in white */
   font-size: 14px;
   border-radius: 6px;
 }

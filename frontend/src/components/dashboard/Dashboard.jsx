@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { Home, Search, Bell, PieChart, Package, LogOut , GraduationCap, Sun ,Moon,Salad } from 'lucide-react';
 import AIChatInput from './Ai';
 import TextType from './Texttype';
-import Calendar from './Calendar';
+import Details from './Details';
 import "@fontsource/alkatra"; 
-import plate from '../../assets/final_plate_2.svg';
-
+import plate from '../../assets/final_plate_3.svg';
+import upload from '../../assets/final_upload.svg';
 
 function Dashboard() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -164,44 +164,69 @@ function Dashboard() {
         </div>
       </div>
 
-      {/* Plate SVG — BOTTOM LEFT, manual width/height set via PLATE_WIDTH / PLATE_HEIGHT */}
-      <div
-        style={{
-          position: 'absolute',
-          left: 20,
-          bottom: 0,
-          width: `${PLATE_WIDTH}px`,
-          height: `${PLATE_HEIGHT}px`,
-          display: 'flex',
-          alignItems: 'flex-end',
-          justifyContent: 'flex-start',
-          pointerEvents: 'none',
-          zIndex: 2,
-          overflowY: 'hidden'
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.cursor = 'pointer';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.cursor = 'default';
-        }}
-      >
-
-
-        <img
-          src={plate}
-          alt="Plate"
+    {/* Plate SVG — BOTTOM LEFT, manual width/height set via PLATE_WIDTH / PLATE_HEIGHT */}
+    <div style={{display:"flex",flexDirection:"row"}}>
+        <div
           style={{
+            position: 'absolute',
+            left: 20,
+            bottom: 0,
             width: `${PLATE_WIDTH}px`,
             height: `${PLATE_HEIGHT}px`,
-            objectFit: 'contain',
-            opacity: 1,
-            userSelect: 'none',
+            display: 'flex',
+            alignItems: 'flex-end',
+            justifyContent: 'flex-start',
             pointerEvents: 'none',
-            display: 'block'
+            zIndex: 2,
+            overflowY: 'hidden'
+            
           }}
-        />
-      </div>
+        >
+          <img
+            src={plate}
+            alt="Plate"
+            style={{
+              width: `${PLATE_WIDTH}px`,
+              height: `${PLATE_HEIGHT}px`,
+              objectFit: 'contain',
+              opacity: 1,
+              userSelect: 'none',
+              pointerEvents: 'none',
+              display: 'block'
+            }} 
+          />
+        </div>
+        <div
+          style={{
+            position: 'absolute',
+            left: 185,
+            bottom: 115,
+            width: 400,
+            height: 400,
+            display: 'flex',
+            alignItems: 'flex-end',
+            justifyContent: 'flex-start',
+            pointerEvents: 'none',
+            zIndex: 2
+          }}
+        >
+          <img
+            src={upload}
+            alt="Plate"
+            style={{
+              width: 350,
+              height: 350,
+              objectFit: 'contain',
+              opacity: 1,
+              userSelect: 'none',
+              pointerEvents: 'none',
+              display: 'block'
+            }} 
+          />
+        </div>
+        
+        
+    </div>  
     </div>
   );
 }
