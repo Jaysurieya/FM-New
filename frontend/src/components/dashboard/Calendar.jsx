@@ -1,20 +1,23 @@
-import React from "react";
-import "./css/Calendar.css"; // <- make sure to create this file
-import "@fontsource/alkatra"; 
+import React, { useState } from "react";
+import "./css/Calendar.css";
+import "@fontsource/alkatra";
 
 const Calendar = () => {
   const today = new Date();
-  const year = today.getFullYear();
-  const month = today.getMonth(); // 0 = Jan, 11 = Dec
 
-  const monthName = today.toLocaleString("default", { month: "long" });
+  const [year, setYear] = useState(today.getFullYear());
+  const [month, setMonth] = useState(today.getMonth()); // 0 = Jan
 
-  const firstDayIndex = new Date(year, month, 1).getDay(); // 0 = Sun
+  const monthName = new Date(year, month).toLocaleString("default", {
+    month: "long",
+  });
+
+  const firstDayIndex = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
   const cells = [];
 
-  // Empty cells before 1st date
+  // Empty cells before 1st day
   for (let i = 0; i < firstDayIndex; i++) {
     cells.push(<div key={`empty-${i}`} className="day-cell empty" />);
   }
@@ -28,10 +31,32 @@ const Calendar = () => {
     );
   }
 
+  // Navigation Logic
+  const nextMonth = () => {
+    setMonth((prev) => (prev + 1) % 12);
+    if (month === 11) setYear((prev) => prev + 1);
+  };
+
+  const prevMonth = () => {
+    setMonth((prev) => (prev - 1 + 12) % 12);
+    if (month === 0) setYear((prev) => prev - 1);
+  };
+
+  const nextYear = () => setYear(year + 1);
+  const prevYear = () => setYear(year - 1);
+
   return (
     <div className="calendar-wrapper">
+      
+      {/* Navigation Header */}
       <div className="calendar-header">
+        <button onClick={prevYear} className="nav-btn">«</button>
+        <button onClick={prevMonth} className="nav-btn">‹</button>
+
         <h2>{monthName} {year}</h2>
+
+        <button onClick={nextMonth} className="nav-btn">›</button>
+        <button onClick={nextYear} className="nav-btn">»</button>
       </div>
 
       <div className="week-row">

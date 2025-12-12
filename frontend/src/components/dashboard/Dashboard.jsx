@@ -11,8 +11,8 @@ function Dashboard() {
   const [isExpanded, setIsExpanded] = useState(false);
 
   // change these to control the plate image exact manual size:
-  const PLATE_WIDTH = 750;   // px
-  const PLATE_HEIGHT = 650;  // px
+  const PLATE_WIDTH = 700;   // px
+  const PLATE_HEIGHT = 600;  // px
 
   return (
     <div style={{
@@ -214,8 +214,8 @@ function Dashboard() {
             src={upload}
             alt="Plate"
             style={{
-              width: 350,
-              height: 350,
+              width: 300,
+              height: 300,
               objectFit: 'contain',
               opacity: 1,
               userSelect: 'none',
@@ -224,9 +224,11 @@ function Dashboard() {
             }} 
           />
         </div>
+        <div style={{paddingRight:"20px",paddingTop:"20px",zIndex:3}}>
+          <Details />
+        </div>
         
-        
-    </div>  
+    </div>
     </div>
   );
 }
