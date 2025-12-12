@@ -1,6 +1,7 @@
 /* Wrapper */
 .calendar-wrapper {
   width: 330px;
+  height: 300px;
   padding: 16px;
   border: 8px solid #492110;
   border-radius: 15px;
@@ -8,6 +9,7 @@
   color: #492110;
   font-family: 'Alkatra', sans-serif;
   box-sizing: border-box;
+
 }
 
 /* Header with navigation buttons */

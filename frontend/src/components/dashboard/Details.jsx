@@ -1,11 +1,13 @@
 import Calendar from "./Calendar";
-import RoundProgress from "./RoundProgress";
+import RoundProgress from "./Water_Tracker";
+import Food_Tracker from "./Food_Tracker";
 
 function Details() {
   return (
     <div style={{
         display:'flex',
-        flexDirection:'column'
+        flexDirection:'column',
+        gap:'20px'  
     }}>
         <div style={{
             display:'flex',
@@ -15,6 +17,7 @@ function Details() {
             <RoundProgress />
             <Calendar />
         </div>
+        <Food_Tracker />
     </div>
   );
 }

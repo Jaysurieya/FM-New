@@ -10,7 +10,7 @@ import "@fontsource/alkatra";
  *
  * Colors approximate the palette you provided.
  */
-export default function RoundProgress({
+export default function Water_Tracker({
   initial = 0,
   maxCount = 15,
   size = 180,
@@ -63,7 +63,7 @@ export default function RoundProgress({
 
   return (
     <div style={overall}>
-      <h1 style={{fontFamily:"alkatra, sans-serif",paddingTop:"10px",fontSize:"25px"}}>Water Tracker</h1>
+      <h1 style={{fontFamily:"alkatra, sans-serif",paddingTop:"10px",fontSize:"25px",color:"#492110"}}>Water Tracker</h1>
       <br />
       <div style={wrapper}>
         <button
@@ -76,13 +76,7 @@ export default function RoundProgress({
 
         <div style={{ position: "relative", width: size, height: size }}>
           <svg width={size} height={size} style={svgStyle}>
-            <defs>
-              {/* <stop offset="0%" stopColor="#FDE6DA" />
-                <stop offset="18%" stopColor="#E6C3A9" />
-                <stop offset="38%" stopColor="#F6AB86" />
-                <stop offset="58%" stopColor="#FF9B66" />
-                <stop offset="78%" stopColor="#FF7F3F" />
-                */}
+            <defs>  
               {/* multi-stop gradient that follows the palette image */}
               <linearGradient id="paletteGradient" x1="0" x2="1" y1="0" y2="0">
                 <stop offset="100%" stopColor="#492110" />
