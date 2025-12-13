@@ -9,6 +9,8 @@ import upload from '../../assets/final_upload.svg';
 
 function Dashboard() {
   const [isExpanded, setIsExpanded] = useState(false);
+  
+  
 
   // change these to control the plate image exact manual size:
   const PLATE_WIDTH = 700;   // px
@@ -198,6 +200,7 @@ function Dashboard() {
         </div>
         <div
           style={{
+            cursor: "pointer" ,
             position: 'absolute',
             left: 185,
             bottom: 115,
@@ -206,7 +209,7 @@ function Dashboard() {
             display: 'flex',
             alignItems: 'flex-end',
             justifyContent: 'flex-start',
-            pointerEvents: 'none',
+            // pointerEvents: 'none',
             zIndex: 2
           }}
         >
