@@ -20,7 +20,7 @@ function Food_Tracker() {
   return (
     <div style={overall}>
         <div style={daily}>
-            <h1>Daily Goal:</h1>
+            <h1 className="ml-2.5">Daily Goal:</h1>
             <div style={{
               margin: '10px',
               display: 'flex',
@@ -28,8 +28,8 @@ function Food_Tracker() {
             }}>
               <Daily protein={70} fats={50} carbs={250} fibre={30} />
             </div>
-             <hr style={{ border: "none", height: 1.5, background: "#492110",margin: "0 auto",width:"95%"}} /> 
-            <div style={{paddingTop:"10px"}}>
+             <hr style={{ border: "none", height: 1.5, background: "#492110",margin: "0 auto",width:"97%"}} /> 
+            <div style={{paddingTop:"10px",marginLeft:"10px"}}>
               <h1> Today's Intake:</h1>
             </div>
         </div>
