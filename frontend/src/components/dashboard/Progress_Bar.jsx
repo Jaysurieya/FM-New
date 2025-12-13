@@ -24,7 +24,7 @@ function Progress() {
       style={{
         width: CARD_WIDTH,
         height: CARD_HEIGHT,
-        background: "#FFCBAE",
+        background: "#FFD5BD",
         // border: "8px solid #492110",
         borderRadius: 20,
         display: "flex",

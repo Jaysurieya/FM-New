@@ -1,9 +1,9 @@
 import Daily from "./Daily";
 
 const overall = {
-    backgroundColor: "#FFCBAE",
+    backgroundColor: "#FFD5BD",
     height: "380px",
-    border: "8px solid #492110",
+    border: "5px solid #492110",
     borderRadius: 20,
     display: "flex",
 }

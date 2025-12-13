@@ -3,7 +3,7 @@
   import { Hero } from './components/Hero';
   import { Route , Routes} from 'react-router-dom';
   import Login from './components/Login';
-  import Signup from './components/Signup';
+  // import Signup from './components/Signup';
   import { Details } from './components/Details';
   import DualScrollPicker from './components/DualScrollPicker';
   import Profile from './components/Profile'; 
@@ -12,6 +12,7 @@
   import Laser from './components/Laser';
   import ProfilePage from './components/Profile';
   import Dashboard from './components/dashboard/Dashboard';
+  import Signup from './components/authentication/Signup.jsx';
 
   function App() {
   return (

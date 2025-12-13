@@ -34,12 +34,12 @@ export default function Water_Tracker({
     
   };
   const overall = {
-    border: "8px solid #492110",
+    border: "5px solid #492110",
     borderRadius: 20,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    backgroundColor: "#FFCBAE",
+    backgroundColor: "#FFD5BD",
     width: "370px",
     height:"300px"
   }
