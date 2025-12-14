@@ -1,4 +1,5 @@
 # app.py
+# .\venv\Scripts\Activate.ps1
 
 import numpy as np
 import tensorflow as tf

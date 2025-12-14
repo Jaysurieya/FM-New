@@ -1,4 +1,4 @@
-import { Camera, Download, X, Check } from 'lucide-react';
+import { Camera, Download, X, Check,Utensils,Goal } from 'lucide-react';
 import {  useRef, useState ,useEffect} from 'react';
 
 const overall={
@@ -55,7 +55,8 @@ function Popup({onClose, videoRef: externalVideoRef}) {
   const [imagePreview, setImagePreview] = useState(null);
   const canvasRef = useRef(null);
 
-
+  const [prediction, setPrediction] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleClose = () => {
     closeCamera(videoRef);
@@ -83,6 +84,61 @@ function Popup({onClose, videoRef: externalVideoRef}) {
     const [cam_up, setCam_up] = useState(true);
     const [image,setImage] = useState(false);
 
+
+    const sendImageToModel = async () => {
+      if (!imagePreview) return;
+
+      setLoading(true);
+      setPrediction(null);
+
+      try {
+        // Load image
+        const img = new Image();
+        img.src = imagePreview;
+        await new Promise(res => (img.onload = res));
+
+        // Create 224x224 canvas
+        const canvas = document.createElement("canvas");
+        canvas.width = 224;
+        canvas.height = 224;
+        const ctx = canvas.getContext("2d");
+
+        ctx.drawImage(img, 0, 0, 224, 224);
+
+        // Extract pixels
+        const imageData = ctx.getImageData(0, 0, 224, 224).data;
+
+        // RGBA → normalized RGB
+        const pixels = [];
+        for (let i = 0; i < imageData.length; i += 4) {
+          pixels.push(
+            imageData[i] / 255,
+            imageData[i + 1] / 255,
+            imageData[i + 2] / 255
+          );
+        }
+
+        // Send to ML backend
+        const res = await fetch("http://127.0.0.1:5001/predict", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ image: pixels }),
+        });
+
+        if (!res.ok) throw new Error("Prediction failed");
+
+        const data = await res.json();
+        setPrediction(data);
+
+      } catch (err) {
+        console.error(err);
+        alert("Prediction failed. Try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+
   return (
     <div style={{display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",gap:"20px",
     fontFamily: "Alkatra, sans-serif",fontSize:"25px"}}>
@@ -90,6 +146,21 @@ function Popup({onClose, videoRef: externalVideoRef}) {
             <p >Upload Your Food Image</p>
             <X size={30} style={{cursor:"pointer"}} onClick={handleClose}/>
         </div>
+        {loading && (
+            <p style={{ fontSize: "18px" }}>🧠 Analyzing image...</p>
+          )}
+
+          {prediction && !loading && (
+            <div style={{ textAlign: "center" }}>
+              <p style={{display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",gap:"15px"}}>
+                <Utensils/> <b>{prediction.class}</b>
+              </p>
+              <p style={{display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center",gap:"15px"}}>
+                <Goal /> Confidence: <b>{prediction.confidence}%</b>
+              </p>
+            </div>
+          )}
+
         {video && (
           <div style={{ position:"relative", width:"700px", height:"450px" }}>
             <video
@@ -181,10 +252,9 @@ function Popup({onClose, videoRef: externalVideoRef}) {
         )}
         {imagePreview && (
           <div style={{ display:"flex", gap:"16px", marginTop:"12px", alignItems:"center", justifyContent:"center" }}>
-            <button
+            {!prediction && !loading && <button
               onClick={() => {
-                // Proceed with the selected/captured image
-                onClose();
+                sendImageToModel();
               }}
               style={{
                 display:"flex",
@@ -199,7 +269,25 @@ function Popup({onClose, videoRef: externalVideoRef}) {
             >
               <Check size={20} color="#492110" />
               <span style={{ color:"#492110" }}>Continue</span>
-            </button>
+            </button>}
+            {prediction && !loading && <button
+              onClick={() => {
+                // sendImageToModel();
+              }}
+              style={{
+                display:"flex",
+                alignItems:"center",
+                gap:"8px",
+                padding:"10px 16px",
+                borderRadius: 10,
+                background: "#FFCBAE",
+                border: "3px solid #492110",
+                cursor:"pointer"
+              }}
+            >
+              <Check size={20} color="#492110" />
+              <span style={{ color:"#492110" }}>Add to Tracker</span>
+            </button>}
             <button
               onClick={() => {
                 // Reset preview and allow retake or re-upload
@@ -209,6 +297,8 @@ function Popup({onClose, videoRef: externalVideoRef}) {
                 setCam_up(true);
                 // also ensure camera is stopped on retake
                 closeCamera(videoRef);
+                setPrediction(null);
+                setLoading(false);
               }}
               style={{
                 display:"flex",
