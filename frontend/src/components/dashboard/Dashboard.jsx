@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Home, Search, Bell, PieChart, Package, LogOut ,Salad} from 'lucide-react';
 import TextType from './Texttype';
 import Details from './Details';
@@ -7,6 +7,8 @@ import plate from '../../assets/final_plate_3.svg';
 import upload from '../../assets/final_upload.svg';
 import './css/Dashboard.css';
 import Popup from './Popup';
+import { } from './Popup';
+import { } from './Popup';
 
 function Dashboard() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -16,13 +18,14 @@ function Dashboard() {
   // change these to control the plate image exact manual size:
   const PLATE_WIDTH = 700;   // px
   const PLATE_HEIGHT = 600;  // px
-
+  const popupVideoRef = useRef(null);
+// onClick={() => { closeCamera(popupVideoRef); setOpen(false); }}
   return (
     <div className={"app"}>
     {open && (
-        <div className="overlay" onClick={() => setOpen(false)}>
+        <div className="overlay" >
           <div className="popup" onClick={e => e.stopPropagation()}> 
-            <Popup onClose={() => setOpen(false)}/>
+            <Popup onClose={() => setOpen(false)} videoRef={popupVideoRef}/>
           </div>
         </div>
       )}
