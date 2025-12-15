@@ -64,6 +64,7 @@ function Popup({onClose, videoRef: externalVideoRef,onAddNutrition}) {
   carbs: 0,
   fibre: 0,
   calories: 0,
+  Food: ''
 });
   const [hasFetchedNutrients, setHasFetchedNutrients] = useState(false);
 
@@ -142,6 +143,7 @@ function Popup({onClose, videoRef: externalVideoRef,onAddNutrition}) {
         setPrediction(data);
 
         await fetchNutritionFromGemini(data.class);
+        setNutrients(prev => ({ ...prev, Food: data.class }));
 
       } catch (err) {
         console.error(err);
@@ -186,7 +188,11 @@ function Popup({onClose, videoRef: externalVideoRef,onAddNutrition}) {
         const data = await response.json();
         const nutrition = data.nutrition;
 
-        setNutrients(nutrition);
+        setNutrients(prev => ({
+        ...prev,
+        ...nutrition
+      }));
+
         setHasFetchedNutrients(true);
         //onClose();  close popup after adding
 

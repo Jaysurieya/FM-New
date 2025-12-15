@@ -1,4 +1,5 @@
 import Daily from "./Daily";
+import React, { useState, useEffect } from "react";
 
 const overall = {
     backgroundColor: "#FFD5BD",
@@ -17,6 +18,17 @@ const daily = {
 
 
 function Food_Tracker({ nutrients }) {
+
+  const [todayIntake, setTodayIntake] = useState([]);
+
+  // 🔥 append whenever new nutrients come in
+  useEffect(() => {
+    if (nutrients && (nutrients.Food || nutrients.food)) {
+      const foodName = nutrients.Food ?? nutrients.food;
+      // Ensure we store a consistent "Food" key for display
+      setTodayIntake(prev => [...prev, { ...nutrients, Food: foodName }]);
+    }
+  }, [nutrients]);
   return (
     <div style={overall}>
         <div style={daily}>
@@ -31,11 +43,35 @@ function Food_Tracker({ nutrients }) {
                 fats={nutrients.fats}
                 carbs={nutrients.carbs}
                 fibre={nutrients.fibre}
+                calories={nutrients.calories}
               />
             </div>
              <hr style={{ border: "none", height: 1.5, background: "#492110",margin: "0 auto",width:"97%"}} /> 
-            <div style={{paddingTop:"10px",marginLeft:"10px"}}>
-              <h1> Today's Intake:</h1>
+            <div style={{ paddingTop: "10px", marginLeft: "10px" }}>
+              <h1>Today's Intake:</h1>
+
+              {todayIntake.length === 0 && (
+                <p style={{ opacity: 0.6 }}>No food added yet</p>
+              )}
+
+              {todayIntake.map((item, index) => (
+                <div
+                  key={index}
+                  style={{
+                    marginTop: "8px",
+                    padding: "8px",
+                    background: "#FFE6D5",
+                    borderRadius: 10,
+                    border: "2px solid #492110",
+                    width: "95%"
+                  }}
+                >
+                  <b>{item.Food || item.food || 'Food'}</b>
+                  <div style={{ fontSize: "14px" }}>
+                    🥩 {item.protein}g | 🧈 {item.fats}g | 🍞 {item.carbs}g | 🌾 {item.fibre}g | 🔥 {item.calories} kcal
+                  </div>
+                </div>
+              ))}
             </div>
         </div>
         <div>

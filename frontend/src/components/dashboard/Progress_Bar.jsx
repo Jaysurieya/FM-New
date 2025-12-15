@@ -1,19 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "@fontsource/alkatra";
 
-function Progress() {
-  // 🔧 EASY CONTROLS
+function Progress({ calories }) {
   const CARD_WIDTH = 140;
   const CARD_HEIGHT = 140;
 
   const CIRCLE_SIZE = 140;
   const STROKE = 12;
-
-  const MAX_COUNT = 15;
+  const MAX_COUNT = 1450;
 
   const [count, setCount] = useState(0);
 
-  const progress = count / MAX_COUNT;
+  // ✅ update state safely when calories change
+  useEffect(() => {
+    if (typeof calories === "number") {
+      setCount(Math.min(calories, MAX_COUNT));
+    }
+  }, [calories]);
+
+  // ✅ clamp progress between 0 and 1
+  const progress = Math.min(count / MAX_COUNT, 1);
 
   const radius = (CIRCLE_SIZE - STROKE) / 2;
   const circumference = 2 * Math.PI * radius;
@@ -25,11 +31,10 @@ function Progress() {
         width: CARD_WIDTH,
         height: CARD_HEIGHT,
         background: "#FFD5BD",
-        // border: "8px solid #492110",
         borderRadius: 20,
         display: "flex",
-        alignItems: "top",
-        justifyContent: "left",
+        alignItems: "center",
+        justifyContent: "center",
         fontFamily: "Alkatra, sans-serif"
       }}
     >
@@ -77,7 +82,7 @@ function Progress() {
             color: "#492110"
           }}
         >
-          {count === MAX_COUNT ? "Done" : count}
+          {count >= MAX_COUNT ? "Done" : count}
         </div>
       </div>
     </div>

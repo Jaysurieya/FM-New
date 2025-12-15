@@ -17,7 +17,8 @@ function Dashboard() {
     fats: 0,
     carbs: 0,
     fibre: 0,
-    calories: 0
+    calories: 0,
+    Food: ''
   });
 
    const handleAddNutrition = (nutrition) => {
@@ -26,7 +27,8 @@ function Dashboard() {
       fats: prev.fats + nutrition.fats,
       carbs: prev.carbs + nutrition.carbs,
       fibre: prev.fibre + nutrition.fibre,
-      calories: prev.calories + nutrition.calories
+      calories: prev.calories + nutrition.calories,
+      Food: nutrition.Food
     }));
   };
   

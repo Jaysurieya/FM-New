@@ -1,7 +1,7 @@
 import React from "react";
 import Progress from "./Progress_Bar";
 
-function Daily({ protein, fats, carbs, fibre }) {
+function Daily({ protein, fats, carbs, fibre, calories}) {
   const MAX = 100; // you can change this
 
   const data = [
@@ -21,7 +21,7 @@ function Daily({ protein, fats, carbs, fibre }) {
         justifyContent:"center",
         color: "#492110"
     }}>    
-        <Progress />
+        <Progress calories={calories}/>
         <div
         style={{
             display: "grid",
