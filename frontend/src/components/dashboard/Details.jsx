@@ -1,8 +1,10 @@
 import Calendar from "./Calendar";
 import RoundProgress from "./Water_Tracker";
 import Food_Tracker from "./Food_Tracker";
+import { useState } from "react";
 
-function Details() {
+function Details({ nutrients }) {
+
   return (
     <div style={{
         display:'flex',
@@ -17,7 +19,7 @@ function Details() {
             <RoundProgress />
             <Calendar />
         </div>
-        <Food_Tracker />
+        <Food_Tracker nutrients={nutrients}/>
     </div>
   );
 }

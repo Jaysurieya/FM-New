@@ -48,7 +48,7 @@ const closeCamera = (videoRef) => {
 
 
 
-function Popup({onClose, videoRef: externalVideoRef}) {
+function Popup({onClose, videoRef: externalVideoRef,onAddNutrition}) {
   const internalVideoRef = useRef(null);
   const videoRef = externalVideoRef || internalVideoRef;
   const imageRef = useRef(null);
@@ -57,6 +57,17 @@ function Popup({onClose, videoRef: externalVideoRef}) {
 
   const [prediction, setPrediction] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const [nutrients, setNutrients] = useState({
+  protein: 0,
+  fats: 0,
+  carbs: 0,
+  fibre: 0,
+  calories: 0,
+});
+  const [hasFetchedNutrients, setHasFetchedNutrients] = useState(false);
+
+
 
   const handleClose = () => {
     closeCamera(videoRef);
@@ -130,11 +141,58 @@ function Popup({onClose, videoRef: externalVideoRef}) {
         const data = await res.json();
         setPrediction(data);
 
+        await fetchNutritionFromGemini(data.class);
+
       } catch (err) {
         console.error(err);
         alert("Prediction failed. Try again.");
       } finally {
         setLoading(false);
+      }
+    };
+
+
+    /**
+     * Sends food name to Gemini AI,
+     * gets nutrition details,
+     * and sends them to Dashboard
+     */
+    const fetchNutritionFromGemini = async (foodName) => {
+      try {
+        const prompt = `
+    Give nutritional values for a standard serving of ${foodName}.
+    Return ONLY valid JSON in this format:
+    {
+      "protein": number,
+      "fats": number,
+      "carbs": number,
+      "fibre": number,
+      "calories": number
+    }
+    Values in grams, calories in kcal.
+    `;
+
+        const response = await fetch("http://localhost:5000/api/nutrition/fetch", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ foodName })
+        });
+
+        if (!response.ok) {
+          const errText = await response.text();
+          throw new Error(`Gemini failed: ${errText}`);
+        }
+
+        const data = await response.json();
+        const nutrition = data.nutrition;
+
+        setNutrients(nutrition);
+        setHasFetchedNutrients(true);
+        //onClose();  close popup after adding
+
+      } catch (err) {
+        console.error("Gemini error:", err);
+        alert("Could not fetch nutrition details. Please try again.");
       }
     };
 
@@ -160,7 +218,13 @@ function Popup({onClose, videoRef: externalVideoRef}) {
               </p>
             </div>
           )}
-
+        {hasFetchedNutrients && !loading && (
+          <div style={{ fontSize: "18px", color: "#228B22" }}>
+            ✅ Nutrition details fetched!:
+            <p>Proteins:{nutrients.protein},Fats:{nutrients.fats}</p>
+            <p>Carbs:{nutrients.carbs},Fibre:{nutrients.fibre} </p>
+          </div>
+        )}
         {video && (
           <div style={{ position:"relative", width:"700px", height:"450px" }}>
             <video
@@ -270,9 +334,28 @@ function Popup({onClose, videoRef: externalVideoRef}) {
               <Check size={20} color="#492110" />
               <span style={{ color:"#492110" }}>Continue</span>
             </button>}
-            {prediction && !loading && <button
+            {prediction && !hasFetchedNutrients && !loading && <button
               onClick={() => {
-                // sendImageToModel();
+                fetchNutritionFromGemini(prediction.class);
+              }}
+              style={{
+                display:"flex",
+                alignItems:"center",
+                gap:"8px",
+                padding:"10px 16px",
+                borderRadius: 10,
+                background: "#FFCBAE",
+                border: "3px solid #492110",
+                cursor:"pointer"
+              }}
+            >
+              <Check size={20} color="#492110" />
+              <span style={{ color:"#492110" }}>Find Nutrients</span>
+            </button>}
+            {hasFetchedNutrients && !loading && <button
+              onClick={() => {
+                 onAddNutrition(nutrients);
+                 onClose();
               }}
               style={{
                 display:"flex",
@@ -299,6 +382,16 @@ function Popup({onClose, videoRef: externalVideoRef}) {
                 closeCamera(videoRef);
                 setPrediction(null);
                 setLoading(false);
+
+                setPrediction(null);
+                setNutrients({
+                  protein: 0,
+                  fats: 0,
+                  carbs: 0,
+                  fibre: 0,
+                  calories: 0,
+                });
+                setHasFetchedNutrients(false);
               }}
               style={{
                 display:"flex",

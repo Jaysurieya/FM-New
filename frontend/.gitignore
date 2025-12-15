@@ -30,3 +30,4 @@ Fitmate model/
 ml_model_api/food_classifier_final_model.keras
 Backend/
 *.png
+.env

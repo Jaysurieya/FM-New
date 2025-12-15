@@ -7,12 +7,28 @@ import plate from '../../assets/final_plate_3.svg';
 import upload from '../../assets/final_upload.svg';
 import './css/Dashboard.css';
 import Popup from './Popup';
-import { } from './Popup';
-import { } from './Popup';
 
 function Dashboard() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [open, setOpen] = useState(false);
+
+  const [nutrients, setNutrients] = useState({
+    protein: 0,
+    fats: 0,
+    carbs: 0,
+    fibre: 0,
+    calories: 0
+  });
+
+   const handleAddNutrition = (nutrition) => {
+    setNutrients(prev => ({
+      protein: prev.protein + nutrition.protein,
+      fats: prev.fats + nutrition.fats,
+      carbs: prev.carbs + nutrition.carbs,
+      fibre: prev.fibre + nutrition.fibre,
+      calories: prev.calories + nutrition.calories
+    }));
+  };
   
 
   // change these to control the plate image exact manual size:
@@ -25,7 +41,7 @@ function Dashboard() {
     {open && (
         <div className="overlay" >
           <div className="popup" onClick={e => e.stopPropagation()}> 
-            <Popup onClose={() => setOpen(false)} videoRef={popupVideoRef}/>
+            <Popup onClose={() => setOpen(false)} videoRef={popupVideoRef} onAddNutrition={handleAddNutrition}/>
           </div>
         </div>
       )}
@@ -242,7 +258,7 @@ function Dashboard() {
             />
           </div>
           <div style={{paddingRight:"20px",paddingTop:"20px",zIndex:3}}>
-            <Details />
+            <Details nutrients={nutrients}/>
           </div>
           
       </div>

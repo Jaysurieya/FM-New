@@ -3,7 +3,7 @@
   import { Hero } from './components/Hero';
   import { Route , Routes} from 'react-router-dom';
   import Login from './components/Login';
-  // import Signup from './components/Signup';
+  //import Signup from './components/Signup';
   import { Details } from './components/Details';
   import DualScrollPicker from './components/DualScrollPicker';
   import Profile from './components/Profile'; 

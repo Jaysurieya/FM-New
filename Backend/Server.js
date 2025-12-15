@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const detailsRoutes = require('./routes/detailsRoutes');
+const nutritionRoutes = require('./routes/nutritionRoutes');
 const dotenv = require('dotenv');
 const connectDB = require('./mongoConnect');
 
@@ -20,6 +21,7 @@ app.use(bodyParser.json());
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/details', detailsRoutes );
+app.use('/api/nutrition', nutritionRoutes);
 
 // Start Server
 const PORT = 5000;

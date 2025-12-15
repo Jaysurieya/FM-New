@@ -16,7 +16,7 @@ const daily = {
 }
 
 
-function Food_Tracker() {
+function Food_Tracker({ nutrients }) {
   return (
     <div style={overall}>
         <div style={daily}>
@@ -26,7 +26,12 @@ function Food_Tracker() {
               display: 'flex',
               flexDirection: 'row',
             }}>
-              <Daily protein={70} fats={50} carbs={250} fibre={30} />
+              <Daily
+                protein={nutrients.protein}
+                fats={nutrients.fats}
+                carbs={nutrients.carbs}
+                fibre={nutrients.fibre}
+              />
             </div>
              <hr style={{ border: "none", height: 1.5, background: "#492110",margin: "0 auto",width:"97%"}} /> 
             <div style={{paddingTop:"10px",marginLeft:"10px"}}>
