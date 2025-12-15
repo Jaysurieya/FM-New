@@ -219,10 +219,8 @@ function Popup({onClose, videoRef: externalVideoRef,onAddNutrition}) {
             </div>
           )}
         {hasFetchedNutrients && !loading && (
-          <div style={{ fontSize: "18px", color: "#228B22" }}>
-            ✅ Nutrition details fetched!:
-            <p>Proteins:{nutrients.protein},Fats:{nutrients.fats}</p>
-            <p>Carbs:{nutrients.carbs},Fibre:{nutrients.fibre} </p>
+          <div style={{ fontSize: "18px", color: "#492110" }}>
+            <p>Proteins:{nutrients.protein},Fats:{nutrients.fats},Carbs:{nutrients.carbs},Fibre:{nutrients.fibre} </p>
           </div>
         )}
         {video && (

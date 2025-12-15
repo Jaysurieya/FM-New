@@ -27,8 +27,23 @@ async function callGeminiWithRetry(prompt, apiKey, maxRetries = 3) {
 }
 
 function buildPrompt(foodName) {
-  return `Give nutritional values for a standard serving of ${foodName}.
-Return ONLY valid JSON in this format:
+  return `
+You are a nutrition database, not a conversational assistant.
+
+Task:
+Return nutritional values for "${foodName}" using a FIXED, STANDARD reference.
+
+Rules (must follow strictly):
+- Assume a standard serving size defined by common nutrition databases (e.g. USDA-style).
+- Use average values, not ranges.
+- Do NOT add explanations, comments, or text outside JSON.
+- Do NOT vary values between responses for the same food.
+- If unsure, choose the most commonly cited average values.
+- Always round values to 1 decimal place.
+
+Output format:
+Return ONLY valid JSON in exactly this structure:
+
 {
   "protein": number,
   "fats": number,
@@ -36,7 +51,11 @@ Return ONLY valid JSON in this format:
   "fibre": number,
   "calories": number
 }
-Values in grams, calories in kcal.`;
+
+Units:
+- protein, fats, carbs, fibre → grams
+- calories → kcal
+`;
 }
 
 function extractJSONFromCandidates(data) {
