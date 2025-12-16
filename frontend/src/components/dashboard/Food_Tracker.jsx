@@ -50,28 +50,36 @@ function Food_Tracker({ nutrients }) {
             <div style={{ paddingTop: "10px", marginLeft: "10px" }}>
               <h1>Today's Intake:</h1>
 
-              {todayIntake.length === 0 && (
-                <p style={{ opacity: 0.6 }}>No food added yet</p>
-              )}
+              <div
+                style={{
+                  maxHeight: "140px",   // adjust if you want more/less height
+                  overflowY: "auto",
+                  paddingRight: "6px"
+                }}
+              >
+                {todayIntake.length === 0 && (
+                  <p style={{ opacity: 0.6 }}>No food added yet</p>
+                )}
 
-              {todayIntake.map((item, index) => (
-                <div
-                  key={index}
-                  style={{
-                    marginTop: "8px",
-                    padding: "8px",
-                    background: "#FFE6D5",
-                    borderRadius: 10,
-                    border: "2px solid #492110",
-                    width: "95%"
-                  }}
-                >
-                  <b>{item.Food || item.food || 'Food'}</b>
-                  <div style={{ fontSize: "14px" }}>
-                    🥩 {item.protein}g | 🧈 {item.fats}g | 🍞 {item.carbs}g | 🌾 {item.fibre}g | 🔥 {item.calories} kcal
+                {todayIntake.map((item, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      marginTop: "8px",
+                      padding: "8px",
+                      background: "#FFE6D5",
+                      borderRadius: 10,
+                      border: "2px solid #492110",
+                      width: "95%"
+                    }}
+                  >
+                    <b>{item.Food || item.food || "Food"}</b>
+                    <div style={{ fontSize: "14px" }}>
+                      🥩 {item.protein}g | 🧈 {item.fats}g | 🍞 {item.carbs}g | 🌾 {item.fibre}g | 🔥 {item.calories} kcal
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
         </div>
         <div>
