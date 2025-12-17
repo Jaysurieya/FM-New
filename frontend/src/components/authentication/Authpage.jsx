@@ -1,13 +1,92 @@
 import React from "react";
+//Fitmate/frontend/node_modules/firebase/auth/dist/auth/index
 import "./Authpage.css";
 import { motion } from "framer-motion";
 import { Button } from "./Button";
+import { auth, googleProvider } from "../../../firebase";
+import { signInWithPopup } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 import { ChevronLeftIcon, Salad } from "lucide-react";
 import { Input } from "./input";
-import {cn} from "../../lib/utils";
 
 export function AuthPage() {
+
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+
+  const navigate = useNavigate();
+  const [showSuccess, setShowSuccess] = React.useState(false);
+
+  const handleGoogleLogin = async () => {
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+
+    // 🔑 Firebase ID token
+    const idToken = await result.user.getIdToken();
+
+    // 📡 Send token to backend
+    const res = await fetch("http://localhost:5000/api/auth/google", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ token: idToken }),
+    });
+
+    const data = await res.json();
+    console.log(data);
+    if (!res.ok || !data?.success) {
+      throw new Error(data?.message || "Google signup failed");
+    }
+
+    // 🪙 Save JWT and navigate based on user status
+    localStorage.setItem("fitmate_token", data.token);
+    setShowSuccess(true);
+    if (data.isNewUser) {
+      navigate("/details");
+    } else {
+      navigate("/dashboard");
+    }
+
+  } catch (error) {
+    alert(error?.message || "Google signup failed");
+  }
+};
+
+  const handleEmailAuth = async () => {
+  try {
+    const res = await fetch("http://localhost:5000/api/auth/email-auth", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await res.json();
+    console.log(data);
+
+    if (!res.ok || !data.success) {
+      throw new Error(data.message || "Authentication failed");
+    }
+
+    localStorage.setItem("fitmate_token", data.token);
+
+    if (data.isNewUser) {
+      navigate("/details");      // 🆕 new user
+    } else {
+      navigate("/dashboard");   // 👤 existing user
+    }
+
+  } catch (err) {
+    alert(err.message);
+  }
+};
+
+
+
   return (
     <main className="main">
       <div className="leftPanel">
@@ -51,7 +130,7 @@ export function AuthPage() {
             </p>
           </div>
           <div className="space-y-2 mb-3">
-            <Button type="button" size="lg" className="btnBlack">
+            <Button type="button" size="lg" className="btnBlack" onClick={handleGoogleLogin}>
               <GoogleIcon className="homeIcon" color="white"/>
               <span>Continue with Google</span>
             </Button>
@@ -69,18 +148,25 @@ export function AuthPage() {
               <div style={{ paddingBottom: "0.5rem" }}>
                 <Input
                   placeholder="your.email@example.com"
-                  className=""
                   type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <Input
                 placeholder="your password"
-                className=""
                 type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
 
-            <Button type="button" className="btnBlack">
+            <Button
+              type="button"
+              className="btnBlack"
+              onClick={handleEmailAuth}
+              style={{ cursor: "pointer" }}
+            >
               <span>Continue With Email</span>
             </Button>
           </form>
