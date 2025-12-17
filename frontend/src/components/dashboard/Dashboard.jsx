@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState,useEffect } from 'react';
 import { Home, Search, Bell, PieChart, Package, LogOut ,Salad,UserRound} from 'lucide-react';
 import TextType from './Texttype';
 import Details from './Details';
@@ -8,6 +8,7 @@ import upload from '../../assets/final_upload.svg';
 import './css/Dashboard.css';
 import Popup from './Popup';
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 function Dashboard() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -23,16 +24,94 @@ function Dashboard() {
   });
   const [todayIntake, setTodayIntake] = useState([]);
 
-   const handleAddNutrition = (nutrition) => {
-    setNutrients(prev => ({
-      protein: prev.protein + nutrition.protein,
-      fats: prev.fats + nutrition.fats,
-      carbs: prev.carbs + nutrition.carbs,
-      fibre: prev.fibre + nutrition.fibre,
-      calories: prev.calories + nutrition.calories,
-      Food: nutrition.Food
-    }));
-    setTodayIntake(prev => [...prev, nutrition]);
+  useEffect(() => {
+    const fetchTodayNutrition = async () => {
+      try {
+        const token = localStorage.getItem("fitmate_token");
+        if (!token) return;
+
+        const res = await axios.post(
+          "http://localhost:5000/api/nutrition/fetch_T_details",
+          {}, // no body needed
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        );
+
+        const log = res.data?.data;
+
+        if (log) {
+          setNutrients({
+            protein: log.protein || 0,
+            fats: log.fats || 0,
+            carbs: log.carbs || 0,
+            fibre: log.fibre || 0,
+            calories: log.calories || 0,
+            Food: ""
+          });
+
+          setTodayIntake(log.foods || []);
+        } else {
+          // no log for today → reset
+          setNutrients({
+            protein: 0,
+            fats: 0,
+            carbs: 0,
+            fibre: 0,
+            calories: 0,
+            Food: ""
+          });
+          setTodayIntake([]);
+        }
+      } catch (error) {
+        console.error("Failed to fetch nutrition:", error);
+      }
+    };
+
+    fetchTodayNutrition();
+  }, []);
+
+   const handleAddNutrition = async (nutrition) => {
+    try {
+      const token = localStorage.getItem("fitmate_token");
+      console.log("TOKEN 👉", token);
+
+      const res = await axios.post(
+        "http://localhost:5000/api/nutrition/add",
+        {
+          name: nutrition.Food,     // food name
+          protein: nutrition.protein,
+          fats: nutrition.fats,
+          carbs: nutrition.carbs,
+          fibre: nutrition.fibre,
+          calories: nutrition.calories
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      const log = res.data.data;
+
+      // 🔥 update state from backend response
+      setNutrients({
+        protein: log.protein,
+        fats: log.fats,
+        carbs: log.carbs,
+        fibre: log.fibre,
+        calories: log.calories,
+        Food: nutrition.Food
+      });
+
+      setTodayIntake(log.foods);
+
+    } catch (error) {
+      console.error("Failed to add nutrition:", error);
+    }
   };
   
 
