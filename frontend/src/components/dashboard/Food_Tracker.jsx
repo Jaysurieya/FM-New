@@ -17,18 +17,23 @@ const daily = {
 }
 
 
-function Food_Tracker({ nutrients }) {
+function Food_Tracker({ nutrients,intake }) {
 
   const [todayIntake, setTodayIntake] = useState([]);
 
-  // 🔥 append whenever new nutrients come in
+  // Sync today's intake from `intake` prop (array or single object)
   useEffect(() => {
-    if (nutrients && (nutrients.Food || nutrients.food)) {
-      const foodName = nutrients.Food ?? nutrients.food;
-      // Ensure we store a consistent "Food" key for display
-      setTodayIntake(prev => [...prev, { ...nutrients, Food: foodName }]);
+    if (Array.isArray(intake)) {
+      const normalized = intake.map((item) => ({
+        ...item,
+        Food: item?.Food ?? item?.food ?? "Food",
+      }));
+      setTodayIntake(normalized);
+    } else if (intake && (intake.Food || intake.food)) {
+      const foodName = intake.Food ?? intake.food;
+      setTodayIntake((prev) => [...prev, { ...intake, Food: foodName }]);
     }
-  }, [nutrients]);
+  }, [intake]);
   return (
     <div style={overall}>
         <div style={daily}>

@@ -21,6 +21,7 @@ function Dashboard() {
     calories: 0,
     Food: ''
   });
+  const [todayIntake, setTodayIntake] = useState([]);
 
    const handleAddNutrition = (nutrition) => {
     setNutrients(prev => ({
@@ -31,6 +32,7 @@ function Dashboard() {
       calories: prev.calories + nutrition.calories,
       Food: nutrition.Food
     }));
+    setTodayIntake(prev => [...prev, nutrition]);
   };
   
 
@@ -262,7 +264,7 @@ function Dashboard() {
             />
           </div>
           <div style={{paddingRight:"20px",paddingTop:"20px",zIndex:3}}>
-            <Details nutrients={nutrients}/>
+            <Details nutrients={nutrients} todayIntake={todayIntake}/>
           </div>
           
       </div>

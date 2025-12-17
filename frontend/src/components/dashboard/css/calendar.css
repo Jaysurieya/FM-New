@@ -109,8 +109,8 @@
   height: 8px;
   background: #4CAF50; /* streak green */
   border-radius: 50%;
-  top: 4px;
-  left: 50%;
+  top: -2px;
+  right: 70%;
   transform: translateX(-50%);
   z-index: 1; /* ensure visible above cell bg */
 }

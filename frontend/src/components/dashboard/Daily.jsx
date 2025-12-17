@@ -4,18 +4,13 @@ import Progress from "./Progress_Bar";
 function Daily({ protein, fats, carbs, fibre, calories }) {
 
   // ✅ max values per nutrition
-//   const MAX_VALUES = {
-//     Protein: 100,
-//     Fats: 80,
-//     Carbs: 300,
-//     Fibre: 40
-//   };
-    const MAX_VALUES = {
-    Protein: 1,
-    Fats: 1,
-    Carbs: 1,
-    Fibre: 1
+  const MAX_VALUES = {
+    Protein: 100,
+    Fats: 80,
+    Carbs: 300,
+    Fibre: 40
   };
+
 
   const data = [
     { label: "Protein", value: protein },
