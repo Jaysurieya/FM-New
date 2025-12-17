@@ -90,3 +90,33 @@
   pointer-events: none;
   background: transparent;
 }
+.day-cell.today {
+  background: #492110;
+  color: #FFD5BD;
+  font-weight: 700;
+  border-radius: 25%;
+}
+.day-cell.streak {
+  position: relative;
+  font-weight: 700;
+}
+
+/* green streak dot */
+.day-cell.streak::before {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #4CAF50; /* streak green */
+  border-radius: 50%;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1; /* ensure visible above cell bg */
+}
+
+/* keep today readable */
+.day-cell.today {
+  font-weight: 700;
+}
+

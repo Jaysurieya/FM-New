@@ -7,7 +7,7 @@ function Progress({ calories }) {
 
   const CIRCLE_SIZE = 140;
   const STROKE = 12;
-  const MAX_COUNT = 1450;
+  const MAX_COUNT = 2000;
 
   const [count, setCount] = useState(0);
 

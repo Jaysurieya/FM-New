@@ -142,7 +142,7 @@ function Popup({onClose, videoRef: externalVideoRef,onAddNutrition}) {
         const data = await res.json();
         setPrediction(data);
 
-        await fetchNutritionFromGemini(data.class);
+        await fetchNutritionFromCSV(data.class);
         setNutrients(prev => ({ ...prev, Food: data.class }));
 
       } catch (err) {
@@ -159,21 +159,8 @@ function Popup({onClose, videoRef: externalVideoRef,onAddNutrition}) {
      * gets nutrition details,
      * and sends them to Dashboard
      */
-    const fetchNutritionFromGemini = async (foodName) => {
+    const fetchNutritionFromCSV = async (foodName) => {
       try {
-        const prompt = `
-    Give nutritional values for a standard serving of ${foodName}.
-    Return ONLY valid JSON in this format:
-    {
-      "protein": number,
-      "fats": number,
-      "carbs": number,
-      "fibre": number,
-      "calories": number
-    }
-    Values in grams, calories in kcal.
-    `;
-
         const response = await fetch("http://localhost:5000/api/nutrition/fetch", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -182,25 +169,30 @@ function Popup({onClose, videoRef: externalVideoRef,onAddNutrition}) {
 
         if (!response.ok) {
           const errText = await response.text();
-          throw new Error(`Gemini failed: ${errText}`);
+          throw new Error(`CSV lookup failed: ${errText}`);
         }
 
         const data = await response.json();
-        const nutrition = data.nutrition;
 
         setNutrients(prev => ({
-        ...prev,
-        ...nutrition
-      }));
+          ...prev,
+          protein: data.protein,
+          fats: data.fats,
+          carbs: data.carbs,
+          fibre: data.fibre,
+          calories: data.calories
+        }));
+        console.log("Fetched nutrients from CSV:", data);
 
         setHasFetchedNutrients(true);
-        //onClose();  close popup after adding
+        // onClose(); // optional
 
       } catch (err) {
-        console.error("Gemini error:", err);
-        alert("Could not fetch nutrition details. Please try again.");
+        console.error("CSV error:", err);
+        alert("Food not found in database. Please try another item.");
       }
     };
+
 
 
   return (
@@ -340,7 +332,7 @@ function Popup({onClose, videoRef: externalVideoRef,onAddNutrition}) {
             </button>}
             {prediction && !hasFetchedNutrients && !loading && <button
               onClick={() => {
-                fetchNutritionFromGemini(prediction.class);
+                fetchNutritionFromCSV(prediction.class);
               }}
               style={{
                 display:"flex",
