@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Home, Search, Bell, PieChart, Package, LogOut ,Salad} from 'lucide-react';
+import { Home, Search, Bell, PieChart, Package, LogOut ,Salad,UserRound} from 'lucide-react';
 import TextType from './Texttype';
 import Details from './Details';
 import "@fontsource/alkatra"; 
@@ -7,11 +7,12 @@ import plate from '../../assets/final_plate_3.svg';
 import upload from '../../assets/final_upload.svg';
 import './css/Dashboard.css';
 import Popup from './Popup';
+import { useNavigate } from 'react-router-dom';
 
 function Dashboard() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [open, setOpen] = useState(false);
-
+  const navigate = useNavigate();
   const [nutrients, setNutrients] = useState({
     protein: 0,
     fats: 0,
@@ -155,6 +156,7 @@ function Dashboard() {
             padding: '16px 12px',
             borderTop: `1px solid #e5e5e5`
           }}>
+            <NavItem icon={<UserRound size={20} />} label="Profile"  isExpanded={isExpanded} onClick={() => navigate('/profile')} />
             <NavItem icon={<LogOut size={20} />} label="Logout"  isExpanded={isExpanded} />
           </div>
         </div>
@@ -269,11 +271,12 @@ function Dashboard() {
     );
   }
 
-  function NavItem({ icon, label, isExpanded }) {
+  function NavItem({ icon, label, isExpanded, onClick }) {
     const [isHovered, setIsHovered] = useState(false);
 
     return (
       <div
+        onClick={onClick}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         style={{

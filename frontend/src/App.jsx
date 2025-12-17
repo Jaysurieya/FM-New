@@ -6,11 +6,11 @@
   //import Signup from './components/Signup';
   import { Details } from './components/Details';
   import DualScrollPicker from './components/DualScrollPicker';
-  import Profile from './components/Profile'; 
+  import Profile from './components/Profile/Profile.jsx'; 
   import FloatingChatbot from './components/Chat';
   import About_us from './components/About_us';
   import Laser from './components/Laser';
-  import ProfilePage from './components/Profile';
+  import ProfilePage from './components/Profile/Profile.jsx';
   import Dashboard from './components/dashboard/Dashboard';
   import Signup from './components/authentication/Signup.jsx';
 
