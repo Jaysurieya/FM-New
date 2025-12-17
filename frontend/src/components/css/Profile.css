@@ -1,0 +1,158 @@
+/* ===== GLOBAL THEME (MATCH DASHBOARD) ===== */
+.profile-page {
+  min-height: 100vh;
+  background-color: #FFE8D6;
+  font-family: 'Alkatra', cursive;
+  padding: 24px;
+  color: #492110;
+}
+
+/* ===== LAYOUT ===== */
+.profile-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+}
+
+.profile-main {
+  flex: 3;
+}
+
+/* ===== MAIN PROFILE CARD ===== */
+.profile-card {
+  background: #FFF3E9;
+  border: 6px solid #492110;
+  border-radius: 20px;
+  padding: 26px;
+  box-shadow: 0 10px 0 rgba(73, 33, 16, 0.15);
+}
+
+.profile-card h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+
+.profile-card .lead {
+  font-size: 14px;
+  color: #7a4a2e;
+  margin-bottom: 22px;
+}
+
+/* ===== GRID ===== */
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+}
+
+/* ===== CARD (MATCH DASHBOARD INPUT BOXES) ===== */
+
+
+/* ===== ACTIONS ===== */
+.profile-card .actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+/* ===== BUTTONS (SAME AS DASHBOARD) ===== */
+.primary-btn {
+  padding: 10px 20px;
+  border-radius: 12px;
+  background: #492110;
+  color: #FFE8D6;
+  border: 3px solid #492110;
+  font-family: 'Alkatra', cursive;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 4px 0 rgba(73, 33, 16, 0.3);
+  transition: transform 0.1s ease;
+}
+
+.primary-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 rgba(73, 33, 16, 0.3);
+}
+
+/* ===== ASIDE ===== */
+.aside {
+  flex:1;
+}
+
+.aside-card {
+  background: #FFF3E9;
+  border: 6px solid #492110;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 8px 0 rgba(73, 33, 16, 0.15);
+}
+
+.aside-card h3 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.muted {
+  color: #7a4a2e;
+  font-size: 14px;
+}
+/* ===== WATER TRACKER STYLE INPUTS ===== */
+.water-input {
+  background: #FFD7BD;               /* same peach as water tracker */
+  border: 3px solid #492110;         /* thick brown border */
+  border-radius: 16px;
+  padding: 16px 18px;
+  position: relative;
+  box-shadow: inset 0 0 0 6px #FFE8D6; /* soft inner ring like tracker */
+}
+
+/* Label (small text) */
+.water-label {
+  font-size: 17px;
+  font-weight: 600;
+  color: #7a4a2e;
+  letter-spacing: 0.4px;
+}
+
+/* Value (main text) */
+.water-value {
+  margin-top: 8px;
+  font-size: 19px;
+  font-weight: 700;
+  color: #492110;
+}
+.water-input-field {
+  width: 100%;
+  background: #FFD7BD;
+  border: 3px solid #492110;
+  border-radius: 14px;
+  padding: 10px 14px;
+  font-family: 'Alkatra', cursive;
+  font-size: 15px;
+  color: #492110;
+  outline: none;
+  box-shadow: inset 0 0 0 5px #FFE8D6;
+}
+
+.water-input-field::placeholder {
+  color: #7a4a2e;
+}
+
+@media (max-width: 900px) {
+  .profile-wrapper {
+    flex-direction: column;
+  }
+
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .aside {
+    width: 100%;
+  }
+}

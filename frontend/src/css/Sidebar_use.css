@@ -1,0 +1,96 @@
+.layout-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #fafafa; /* neutral-50 */
+}
+
+.content-container {
+  display: flex;
+  flex: 1;
+  padding: 2rem;
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.logo-container {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.logo{
+  width: 30px;
+  height: 30px;
+  background-color: #ffffff;
+  border-radius: 20px;
+}
+
+.links-container {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sidebar-body-custom {
+  justify-content: space-between;
+  gap: 2.5rem;
+}
+
+.sidebar-body-top-section {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.header-text {
+  font-size: 1.5rem; /* 24px */
+  font-weight: 700;
+  color: #262626; /* neutral-800 */
+}
+
+.paragraph-text {
+  color: #525252; /* neutral-600 */
+}
+
+/* --- Icon and Image Styles --- */
+.sidebar-icon-style {
+  color: #949494; /* neutral-700 */
+  height: 1.25rem; /* h-5 */
+  width: 1.25rem; /* w-5 */
+  flex-shrink: 0;
+}
+
+.profile-avatar {
+  background-color: #e5e5e5;
+  height: 1.75rem; /* h-7 */
+  width: 1.75rem; /* w-7 */
+  flex-shrink: 0;
+  border-radius: 9999px; /* rounded-full */
+}
+
+/* --- Dark Mode Styles --- */
+.dark .layout-container {
+  background-color: #171717; /* neutral-900 */
+}
+
+.dark .logo-text,
+.dark .header-text {
+  color: #e5e5e5; /* neutral-200 */
+}
+
+.dark .paragraph-text {
+  color: #a3a3a3; /* neutral-400 */
+}
+
+.dark .sidebar-icon-style {
+  color: #e5e5e5; /* neutral-200 */
+}
+.main-content {
+  width: "100%";
+  display: flex;
+}

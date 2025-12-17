@@ -1,0 +1,35 @@
+.location-button {
+  background-color: #000000; /* Green */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+ .location-container {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
+  padding: 20px; 
+}
+/* "or" Divider */
+.divider-container {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #a0aec0; /* A neutral gray color for the text */
+  margin: 1.5rem 0; /* Adds space above and below the divider */
+}
+
+.divider-line {
+  flex-grow: 1; /* This makes the lines take up all available space */
+  border-bottom: 1px solid #e2e8f0; /* This creates the visible line */
+}
+
+.divider-text {
+  padding: 0 1rem; /* Adds space on the left and right of "or" */
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}

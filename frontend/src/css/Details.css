@@ -1,0 +1,82 @@
+/* Details page theme: brown + peach to match dashboard/profile */
+
+/* Page background and font */
+body, .step-content, .step-circle-container {
+  font-family: Alkatra, sans-serif;
+}
+
+.step-content {
+  background-color: transparent;
+  color: #492110; /* brown text for step content */
+}
+
+.step-circle-container {
+  background-color: #fff !important;
+  border: 6px solid #492110 !important; /* thicker brown border */
+  box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+}
+
+.step-content h3 {
+  color: #492110; /* brown headings */
+  margin-bottom: 1rem;
+}
+
+.step-content p {
+  color: #6b6b6b; /* muted brownish gray */
+  line-height: 1.6;
+}
+
+/* Buttons styled to match theme */
+.back-button {
+  color: #6b6b6b !important;
+}
+.back-button:hover { color: #492110 !important; }
+.next-button {
+  color: #fff !important;
+  background-color: #492110 !important; /* brown */
+  box-shadow: 0 6px 10px rgba(73,33,16,0.18) !important;
+}
+.next-button:hover { background-color: #3c1f12 !important; }
+
+/* Step indicators */
+.step-indicator-inner { color: #6b6b6b !important; }
+.step-indicator-inner.active { color: #492110 !important; }
+.step-indicator-inner.complete { color: #2f6f3b !important; }
+
+.step-connector { background-color: #e6dcd6 !important; }
+.step-connector-inner { background-color: #492110 !important; }
+
+.input{
+    border:2px solid #7f7e7e;
+    border-radius: 5px;
+    width: 100%;
+    padding: 8px;
+}
+.box_out{
+    width:100%;
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 30px;
+}
+
+/* Utility button styles used by Details */
+.my_button {
+  background: #492110;
+  color: #FFE8D6;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-bottom: 12px;
+  transition: background 0.15s;
+}
+.my_button:hover { background: #3c1f12; }
+
+/* Make overall page area match peach background when rendered inside components */
+/* .details-page-wrapper {
+  background-color: #FFE8D6;
+  padding: 24px;
+} */
+
