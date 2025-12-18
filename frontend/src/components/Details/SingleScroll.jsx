@@ -59,9 +59,9 @@ export default function AgeScrollPicker({
             scrollToValue(newValue)
           }
         }}
-        className="mb-2 p-1 hover:bg-emerald-100 rounded-full transition-colors"
+          className="mb-2 p-1 hover:bg-[#492110]/20 rounded-full transition-colors"
       >
-        <svg className="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5 text-[#492110]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
         </svg>
       </button>
@@ -69,7 +69,7 @@ export default function AgeScrollPicker({
       <div className="relative">
         {/* Selection indicator */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-          <div className="w-20 h-10 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 rounded-xl border-2 border-emerald-400/30 backdrop-blur-[1px] shadow-sm" />
+          <div className="w-20 h-10 bg-gradient-to-r from-[#492110]/10 to-[#492110]/10 rounded-xl border-2 border-[#492110]/30 backdrop-blur-[1px] shadow-sm" />
         </div>
 
         {/* Scroll container */}
@@ -121,9 +121,9 @@ export default function AgeScrollPicker({
             scrollToValue(newValue)
           }
         }}
-        className="mt-2 p-1 hover:bg-emerald-100 rounded-full transition-colors"
+          className="mt-2 p-1 hover:bg-[#492110]/20 rounded-full transition-colors"
       >
-        <svg className="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5 text-[#492110]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
       </button>
@@ -134,17 +134,17 @@ export default function AgeScrollPicker({
     <div className="flex items-center justify-center p-6">
       <div className="relative bg-white rounded-3xl shadow-2xl border border-slate-200 p-6 px-20 py-10">
         {/* Decorative elements */}
-        <div className="absolute -top-2 -left-2 w-6 h-6 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full opacity-60" />
-        <div className="absolute -bottom-2 -right-2 w-4 h-4 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full opacity-40" />
+          <div className="absolute -top-2 -left-2 w-6 h-6 bg-gradient-to-br from-[#492110] to-[#492110] rounded-full opacity-60" />
+          <div className="absolute -bottom-2 -right-2 w-4 h-4 bg-gradient-to-br from-[#492110] to-[#492110] rounded-full opacity-40" />
 
         {/* Scroll selector */}
         {renderColumn()}
 
         {/* Selected value display */}
         <div className="mt-6 text-center">
-          <div className="text-sm text-slate-500 mb-1 font-medium">Selected Value</div>
-          <div className="text-3xl font-bold text-emerald-600">
-            {selected.toString().padStart(2, "0")} <span className="text-slate-500 text-xl ml-2">{label}</span>
+          <div className="text-sm text-[#492110] mb-1 font-medium">Selected Value</div>
+            <div className="text-3xl font-bold text-[#492110]">
+            {selected.toString().padStart(2, "0")} <span className="text-[#492110] text-xl ml-2">{label}</span>
           </div>
         </div>
       </div>

@@ -66,17 +66,17 @@ export default function DualScrollPicker_Height({
             scrollToValue(scrollRef, values, newValue)
           }
         }}
-        className="mb-2 p-1 hover:bg-emerald-100 rounded-full transition-colors"
+        className="mb-2 p-1 hover:bg-[#492110]/20 rounded-full transition-colors"
       >
-        <svg className="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-5 h-5 text-[#492110]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
         </svg>
       </button>
 
       <div className="relative">
         {/* Selection indicator */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-          <div className="w-20 h-10 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 rounded-xl border-2 border-emerald-400/30 backdrop-blur-[1px] shadow-sm" />
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+          <div className="w-20 h-10 bg-gradient-to-r from-[#492110]/10 to-[#492110]/10 rounded-xl border-2 border-[#492110]/30 backdrop-blur-[1px] shadow-sm" />
         </div>
 
         {/* Scroll container */}
@@ -128,9 +128,9 @@ export default function DualScrollPicker_Height({
             scrollToValue(scrollRef, values, newValue)
           }
         }}
-        className="mt-2 p-1 hover:bg-emerald-100 rounded-full transition-colors"
+        className="mt-2 p-1 hover:bg-[#492110]/20 rounded-full transition-colors"
       >
-        <svg className="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-5 h-5 text-[#492110]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
       </button>
@@ -141,8 +141,8 @@ export default function DualScrollPicker_Height({
     <div className="flex items-center justify-center p-6">
       <div className="relative bg-white rounded-3xl shadow-2xl border border-slate-200 p-6 px-32 py-10">
         {/* Decorative elements */}
-        <div className="absolute -top-2 -left-2 w-6 h-6 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full opacity-60" />
-        <div className="absolute -bottom-2 -right-2 w-4 h-4 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full opacity-40" />
+        <div className="absolute -top-2 -left-2 w-6 h-6 bg-gradient-to-br from-[#492110] to-[#492110] rounded-full opacity-60" />
+        <div className="absolute -bottom-2 -right-2 w-4 h-4 bg-gradient-to-br from-[#492110] to-[#492110] rounded-full opacity-40" />
 
         <div className="flex items-center gap-6">
           {/* Left column */}
@@ -150,9 +150,9 @@ export default function DualScrollPicker_Height({
 
           {/* Separator */}
           <div className="flex flex-col items-center">
-            <div className="w-3 h-3 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full mb-2" />
-            <div className="w-1 h-16 bg-gradient-to-b from-emerald-400 to-teal-500 rounded-full opacity-60" />
-            <div className="w-3 h-3 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full mt-2" />
+            <div className="w-3 h-3 bg-gradient-to-br from-[#492110] to-[#492110] rounded-full mb-2" />
+              <div className="w-1 h-16 bg-gradient-to-b from-[#492110] to-[#492110] rounded-full opacity-60" />
+              <div className="w-3 h-3 bg-gradient-to-br from-[#492110] to-[#492110] rounded-full mt-2" />
           </div>
 
           {/* Right column */}
@@ -161,12 +161,12 @@ export default function DualScrollPicker_Height({
 
         {/* Selected values display */}
         <div className="mt-6 text-center">
-          <div className="text-sm text-slate-500 mb-1 font-medium">Height</div>
-          <div className="text-3xl font-bold text-emerald-600">
+          <div className="text-sm text-[#492110] mb-1 font-medium">Height</div>
+          <div className="text-3xl font-bold text-[#492110]">
             {leftSelected.toString().padStart(2, "0")}
-            <span className="text-slate-400 mx-1">.</span>
+            <span className="text-[#492110] mx-1">.</span>
             {rightSelected.toString()}
-            <span className="text-slate-500 text-xl ml-2">{leftLabel}</span>
+            <span className="text-[#492110] text-xl ml-2">{leftLabel}</span>
           </div>
         </div>
 

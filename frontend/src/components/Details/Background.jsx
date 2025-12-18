@@ -1,5 +1,5 @@
 import React from "react";
-import "../css/Background.css";
+  import "./css/Background.css";
 
 // dotted background component with scrollable content
 

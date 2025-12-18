@@ -4,8 +4,8 @@
   import { Route , Routes} from 'react-router-dom';
   import Login from './components/Login';
   //import Signup from './components/Signup';
-  import { Details } from './components/Details';
-  import DualScrollPicker from './components/DualScrollPicker';
+  import { Details } from './components/Details/Details.jsx';
+  import DualScrollPicker from './components/Details/DualScrollPicker.jsx';
   import Profile from './components/Profile/Profile.jsx'; 
   import FloatingChatbot from './components/Chat';
   import About_us from './components/About_us';

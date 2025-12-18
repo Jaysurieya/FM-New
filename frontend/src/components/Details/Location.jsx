@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../css/Location.css'; 
+import './css/Location.css'; 
 
 const LiveLocationFinder = ({ value, onChange }) => {
   const [address, setAddress] = useState(value || "Your address will appear here");
@@ -73,7 +73,7 @@ const LiveLocationFinder = ({ value, onChange }) => {
         type='text' 
         placeholder='Enter Your Address' 
         style={{
-            border: "1px solid rgb(215, 215, 215)",
+            border: "1px solid #492110",
             borderRadius: "10px",
             padding: "10px",
             height: "80px" 

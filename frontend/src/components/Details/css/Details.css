@@ -2,8 +2,8 @@
 
 /* Main stepper container background */
 .step-circle-container {
-    background-color: #ffffff !important; /* White background */
-    border: none !important; /* Remove black outline */
+    background-color: #FFE8D6 !important; /* White background */
+    border: 5px solid #492110 !important; /* Remove black outline */
     box-shadow: 
         0 20px 25px -5px rgba(0, 0, 0, 0.1),
         0 10px 10px -5px rgba(0, 0, 0, 0.04),
@@ -22,12 +22,12 @@
 
 /* Step content text colors for better contrast */
 .step-content h3 {
-    color: #2563eb; /* Blue color for headings */
+    color: #492110; /* Blue color for headings */
     margin-bottom: 1rem;
 }
 
 .step-content p {
-    color: #374151; /* Dark gray for paragraph text */
+    color: #492110; /* Dark gray for paragraph text */
     line-height: 1.6;
 }
 
@@ -42,12 +42,12 @@
 
 .next-button {
     color: #ffffff !important; /* White text for next button */
-    background-color: #2563eb !important; /* Blue background */
+    background-color: #492110 !important; /* Blue background */
     box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2) !important; /* Button shadow */
 }
 
 .next-button:hover {
-    background-color: #1d4ed8 !important; /* Darker blue on hover */
+    background-color: #492110 !important; /* Darker blue on hover */
     box-shadow: 0 6px 8px -1px rgba(37, 99, 235, 0.3) !important; /* Enhanced shadow on hover */
 }
 
@@ -57,7 +57,7 @@
 }
 
 .step-indicator-inner.active {
-    color: #2563eb !important; /* Blue for active step */
+    color: #492110 !important; /* Blue for active step */
 }
 
 .step-indicator-inner.complete {
@@ -80,10 +80,10 @@
 }
 
 .step-connector-inner {
-    background-color: #2563eb !important; /* Blue for completed connector */
+    background-color: #492110 !important; /* Blue for completed connector */
 } 
 .input{
-    border:2px solid rgb(127, 126, 126);
+    border:2px solid #492110;
     border-radius: 5px;
     width: 100%;
 }
@@ -93,6 +93,8 @@
     flex-direction: row;
     justify-content: center;
     gap: 30px;
+    color: #FFE8D6;
+    padding-bottom: 10px;
 }
 
 @import "tailwindcss";
@@ -108,7 +110,7 @@
   }
 }
 
-:root {
+/* :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -142,7 +144,7 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
-}
+} */
 
 .dark {
   --background: oklch(0.145 0 0);
@@ -246,3 +248,4 @@
 .my_button:hover {
   background: #554ee2;
 }
+/*  */

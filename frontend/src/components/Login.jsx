@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Background from './Background';
+import Background from './Details/Background.jsx';
 import '../css/login.css';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';

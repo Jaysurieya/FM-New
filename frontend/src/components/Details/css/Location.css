@@ -1,6 +1,6 @@
 .location-button {
-  background-color: #000000; /* Green */
-  color: white;
+  background-color: #492110; /* Green */
+  color: #FFE8D6;
   padding: 10px 20px;
   border: none;
   border-radius: 20px;
@@ -18,13 +18,13 @@
   display: flex;
   align-items: center;
   text-align: center;
-  color: #a0aec0; /* A neutral gray color for the text */
+  color: #492110; /* A neutral gray color for the text */
   margin: 1.5rem 0; /* Adds space above and below the divider */
 }
 
 .divider-line {
   flex-grow: 1; /* This makes the lines take up all available space */
-  border-bottom: 1px solid #e2e8f0; /* This creates the visible line */
+  border-bottom: 1px solid #492110; /* This creates the visible line */
 }
 
 .divider-text {
