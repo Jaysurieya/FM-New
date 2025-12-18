@@ -1,5 +1,5 @@
 import { useRef, useState,useEffect } from 'react';
-import { Home, Search, Bell, PieChart, Package, LogOut ,Salad,UserRound} from 'lucide-react';
+import { Home, Search, Bell, PieChart, Package, LogOut ,Salad,UserRound,History} from 'lucide-react';
 import TextType from './Texttype';
 import Details from './Details';
 import "@fontsource/alkatra"; 
@@ -228,9 +228,7 @@ function Dashboard() {
           <nav style={{ flex: 1, padding: '8px 12px' }}>
             
             <NavItem icon={<Home size={20} />} label="Dashboard"  isExpanded={isExpanded} /> 
-            <NavItem icon={<Bell size={20} />} label="Notifications"  isExpanded={isExpanded} />
-            <NavItem icon={<PieChart size={20} />} label="Analytics"  isExpanded={isExpanded} />
-            <NavItem icon={<Package size={20} />} label="Inventory"  isExpanded={isExpanded} />
+            <NavItem icon={<History size={20} />} label="History"  isExpanded={isExpanded} />
           </nav>
 
           {/* Footer */}

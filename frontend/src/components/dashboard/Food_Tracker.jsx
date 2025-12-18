@@ -26,11 +26,11 @@ function Food_Tracker({ nutrients,intake }) {
     if (Array.isArray(intake)) {
       const normalized = intake.map((item) => ({
         ...item,
-        Food: item?.Food ?? item?.food ?? "Food",
+        Food: item?.Food ?? item?.food ?? item?.name ?? "Food",
       }));
       setTodayIntake(normalized);
     } else if (intake && (intake.Food || intake.food)) {
-      const foodName = intake.Food ?? intake.food;
+      const foodName = intake.Food ?? intake.food ?? intake.name;
       setTodayIntake((prev) => [...prev, { ...intake, Food: foodName }]);
     }
   }, [intake]);
@@ -78,7 +78,7 @@ function Food_Tracker({ nutrients,intake }) {
                       width: "95%"
                     }}
                   >
-                    <b>{item.Food || item.food || "Food"}</b>
+                    <b>{item.Food || item.food || item.name || "Food"}</b>
                     <div style={{ fontSize: "14px" }}>
                       🥩 {item.protein}g | 🧈 {item.fats}g | 🍞 {item.carbs}g | 🌾 {item.fibre}g | 🔥 {item.calories} kcal
                     </div>
