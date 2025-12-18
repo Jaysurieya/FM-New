@@ -12,7 +12,7 @@
           className={`rounded-2xl px-4 py-3 max-w-[280px] shadow-sm ${
             isModel
               ? 'bg-gradient-to-r from-slate-100 to-slate-50 text-slate-800 border border-slate-200'
-              : 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-blue-200'
+              : 'bg-gradient-to-r from-[#492110] to-[#492110] text-white shadow-blue-200'
           }`}
         >
           <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.text}</p>
@@ -42,7 +42,7 @@
   export default function FloatingChatbot() {
     // --- Integrated API Key ---
     // IMPORTANT: Replace "YOUR_API_KEY_HERE" with your actual Google Gemini API key.
-    const API_KEY = "AIzaSyCwuVuOJsJoLhBUUX4qL_Sx9T0pNusKn-g";
+    const API_KEY = "AIzaSyAtVlPbAOii_M1gXCdwEFD400xXApJ3Ups";
 
     // --- State Management ---
     const [isOpen, setIsOpen] = useState(false);
@@ -143,7 +143,7 @@
           <div className="fixed bottom-6 right-6 z-50">
             <button
               onClick={toggleChat}
-              className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white p-4 rounded-full shadow-2xl hover:shadow-blue-300/25 transition-all duration-300 transform hover:scale-110 group"
+              className="bg-gradient-to-r from-[#492110] to-[#492110] hover:from-[#492110] hover:to-[#492110] text-white p-4 rounded-full shadow-2xl hover:shadow-blue-300/25 transition-all duration-300 transform hover:scale-110 group"
             >
               <MessageCircle size={24} className="group-hover:rotate-12 transition-transform duration-300" />
             </button>
@@ -152,9 +152,9 @@
 
         {/* Floating Chat Window */}
         {isOpen && (
-          <div className="fixed bottom-6 right-6 z-50 w-96 h-[500px] bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden transition-all duration-300 transform">
+          <div className="fixed bottom-6 right-6 z-50 w-96 h-[500px] bg-white rounded-2xl shadow-2xl border-5 border-[#492110] overflow-hidden transition-all duration-300 transform">
             {/* Header */}
-            <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-4 flex items-center justify-between text-white">
+            <div className="bg-gradient-to-r from-[#492110] to-[#492110] p-4 flex items-center justify-between text-white">
               <div className="flex items-center space-x-3">
                 <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
                   <MessageCircle size={16} />
@@ -211,13 +211,13 @@
                       onChange={(e) => setUserInput(e.target.value)}
                       onKeyPress={handleKeyPress}
                       placeholder="Type your message..."
-                      className="flex-1 px-4 py-3 rounded-full bg-slate-100 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm placeholder-slate-500"
+                      className="flex-1 px-4 py-3 rounded-full bg-slate-100 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#492110] focus:border-transparent text-sm placeholder-slate-500"
                       disabled={isLoading}
                     />
                     <button
                       onClick={handleSendMessage}
                       disabled={isLoading || !userInput.trim()}
-                      className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white p-3 rounded-full disabled:bg-slate-300 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-blue-200/50 transform hover:scale-105"
+                      className="bg-gradient-to-r from-[#492110] to-[#492110] hover:from-[#492110] hover:to-[#492110] text-white p-3 rounded-full disabled:bg-slate-300 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-blue-200/50 transform hover:scale-105"
                     >
                       <Send size={16} />
                     </button>

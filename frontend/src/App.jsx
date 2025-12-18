@@ -7,7 +7,7 @@
   import { Details } from './components/Details/Details.jsx';
   import DualScrollPicker from './components/Details/DualScrollPicker.jsx';
   import Profile from './components/Profile/Profile.jsx'; 
-  import FloatingChatbot from './components/Chat';
+  // import FloatingChatbot from './components/Chat';
   import About_us from './components/About_us';
   import Laser from './components/Laser';
   import ProfilePage from './components/Profile/Profile.jsx';
@@ -24,7 +24,7 @@
           <Route path='/details' element={<Details />} />
           <Route path='/wheel' element={<DualScrollPicker />} />
           <Route path='/profile' element={<Profile />} />
-          <Route path='/chat' element={<FloatingChatbot />} />
+          {/* <Route path='/chat' element={<FloatingChatbot />} /> */}
           <Route path='/about' element={<About_us />} />
           <Route path='/laser' element={<Hero/>} />
           <Route path='/profile' element={<ProfilePage/>} />

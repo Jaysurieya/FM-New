@@ -9,6 +9,7 @@ import './css/Dashboard.css';
 import Popup from './Popup';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import FloatingChatbot from './Chat';
 
 function Dashboard() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -348,6 +349,7 @@ function Dashboard() {
           
       </div>
       </div>
+      <FloatingChatbot />
       </div>
     );
   }
