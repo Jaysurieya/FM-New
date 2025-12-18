@@ -1,6 +1,9 @@
 import { color } from "framer-motion";
 import React, { useState } from "react";
 import "@fontsource/alkatra";
+import axios from "axios";
+import { useEffect } from "react";
+
 
 /**
  * RoundProgress
@@ -61,6 +64,62 @@ export default function Water_Tracker({
 
   const innerCircleSize = size - stroke * 2 - 12; // inner white hole
 
+  const updateWaterDB = async (amount) => {
+    try {
+      const token = localStorage.getItem("fitmate_token");
+      const res = await axios.post(
+        "http://localhost:5000/api/nutrition/water",
+        { amount },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      return res.data?.water;
+    } catch (err) {
+      console.error("Water update failed", err);
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    const fetchTodayWater = async () => {
+      try {
+        const token = localStorage.getItem("fitmate_token");
+        if (!token) return;
+
+        // POST to protected endpoint that returns today's nutrition log
+        const res = await axios.post(
+          "http://localhost:5000/api/nutrition/fetch_T_details",
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        );
+
+        // if no record for today → water = 0
+        if (!res.data?.data) {
+          setCount(0);
+          return;
+        }
+
+        const todayWater = res.data?.data?.water ?? 0;
+
+        // clamp to maxCount just in case
+        setCount(Math.min(todayWater, maxCount));
+      } catch (err) {
+        console.error("Failed to fetch water data", err);
+      }
+    };
+
+    fetchTodayWater();
+  }, [maxCount]);
+
+
   return (
     <div style={overall}>
       <h1 style={{fontFamily:"alkatra, sans-serif",paddingTop:"10px",fontSize:"25px",color:"#492110"}}>Water Tracker</h1>
@@ -69,8 +128,14 @@ export default function Water_Tracker({
         <button
           aria-label="decrease"
           style={btn}
-          onClick={() => setCount(c => Math.max(0, c - 1))}
-        >
+          onClick={() => {
+              (async () => {
+                const newWater = await updateWaterDB(-1);
+                if (typeof newWater === 'number') {
+                  setCount(Math.max(0, Math.min(maxCount, newWater)));
+                }
+              })();
+            }}>
           −
         </button>
 
@@ -149,8 +214,14 @@ export default function Water_Tracker({
         <button
           aria-label="increase"
           style={btn}
-          onClick={() => setCount(c => Math.min(maxCount, c + 1))}
-        >
+          onClick={() => {
+              (async () => {
+                const newWater = await updateWaterDB(1);
+                if (typeof newWater === 'number') {
+                  setCount(Math.max(0, Math.min(maxCount, newWater)));
+                }
+              })();
+            }}>
           +
         </button>
       </div>

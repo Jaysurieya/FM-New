@@ -4,11 +4,14 @@ const { getNutrition } = require('../controllers/nutritionController');
 const { addNutrition } = require('../controllers/nutritionaddController');
 const addMiddleware = require('../middleware/addMiddleware');
 const fetchTDetailsController = require('../Controllers/dailyFetchController');
+const { updateWater,getTodayWater } = require('../Controllers/waterController');
 
 // Protected add endpoint (requires Bearer token)
 router.post('/add', addMiddleware, addNutrition);
 router.post('/fetch', getNutrition);
 router.post('/fetch_T_details',addMiddleware, fetchTDetailsController.DailyFetch);
+router.post("/water", addMiddleware, updateWater);
+router.get("/fetch-daily", addMiddleware, getTodayWater);
 // Remove duplicate nested path; '/api/nutrition/add' is the intended route
 
 module.exports = router;

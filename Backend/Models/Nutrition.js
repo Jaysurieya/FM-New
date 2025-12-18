@@ -39,6 +39,11 @@ const nutritionLogSchema = new mongoose.Schema({
     default: 0
   },
 
+  water: {
+    type: Number,
+    default: 0 // glasses or count
+  },
+
   foods: [
     {
       name: {
