@@ -80,7 +80,7 @@ function Food_Tracker({ nutrients,intake }) {
                   >
                     <b>{item.Food || item.food || item.name || "Food"}</b>
                     <div style={{ fontSize: "14px" }}>
-                      🥩 {item.protein}g | 🧈 {item.fats}g | 🍞 {item.carbs}g | 🌾 {item.fibre}g | 🔥 {item.calories} kcal
+                      🥩Proteins-{item.protein}g | 🧈Fats-{item.fats}g | 🍞Carbs-{item.carbs}g | 🌾Fibre-{item.fibre}g | 🔥Calories-{item.calories} kcal
                     </div>
                   </div>
                 ))}
