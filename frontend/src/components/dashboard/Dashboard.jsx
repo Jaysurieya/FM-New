@@ -228,7 +228,7 @@ function Dashboard() {
           <nav style={{ flex: 1, padding: '8px 12px' }}>
             
             <NavItem icon={<Home size={20} />} label="Dashboard"  isExpanded={isExpanded} /> 
-            <NavItem icon={<History size={20} />} label="History"  isExpanded={isExpanded} />
+            <NavItem icon={<History size={20} />} label="History"  isExpanded={isExpanded} onClick={() => navigate('/history')}/>
           </nav>
 
           {/* Footer */}

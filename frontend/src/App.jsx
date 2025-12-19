@@ -13,6 +13,7 @@
   import ProfilePage from './components/Profile/Profile.jsx';
   import Dashboard from './components/dashboard/Dashboard';
   import Signup from './components/authentication/Signup.jsx';
+  import History from './components/History/History.jsx';
 
   function App() {
   return (
@@ -28,6 +29,7 @@
           <Route path='/about' element={<About_us />} />
           <Route path='/laser' element={<Hero/>} />
           <Route path='/profile' element={<ProfilePage/>} />
+          <Route path='/history' element={<History/>} />
         </Routes>
   );
 }

@@ -22,6 +22,7 @@ app.use(bodyParser.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/details', detailsRoutes );
 app.use('/api/nutrition', nutritionRoutes);
+app.use('/api/history', require('./routes/historyRoutes'));
 
 // Start Server
 const PORT = 5000;
