@@ -19,7 +19,6 @@ logs/
 
 # Virtual environment directory
 venv/
-food_classifier_final_model.keras
 # Python files to ignore
 __pycache__/
 *.pyc
