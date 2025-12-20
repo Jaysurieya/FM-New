@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./css/Calendar.css";
+import "./css/calendar.css";
 import "@fontsource/alkatra";
 
 const Calendar = ({nutrients, maxValues}) => {
