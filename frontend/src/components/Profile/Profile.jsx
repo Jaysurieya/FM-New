@@ -78,7 +78,7 @@
 //   );
 // }
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState,useNavigate } from 'react';
 import axios from 'axios';
 import './Profile.css';
 
@@ -86,6 +86,8 @@ export default function ProfilePage() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const navigate=useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('fitmate_token');
@@ -176,7 +178,7 @@ export default function ProfilePage() {
               <button
                 className="primary-btn"
                 style={{ width: '100%' }}
-                onClick={() => (window.location.href = '/dashboard')}
+                onClick={() => navigate('/dashboard')}
               >
                 Back to Dashboard
               </button>
