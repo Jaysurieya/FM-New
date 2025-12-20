@@ -38,7 +38,7 @@ const GlowEffect = ({ delay = 400 }) => {
 
   return (
     <>
-      <style jsx>{`
+      <style>{`
         @keyframes float {
           0%, 100% { 
             transform: translate(0, 0) scale(1);

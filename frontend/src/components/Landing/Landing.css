@@ -1,0 +1,28 @@
+.hero-container {
+  width: 100vw;
+  height: 100vh; /* full screen height */
+  overflow: hidden;
+  border: 8px solid #492110;
+}
+
+.hero-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* fills screen without distortion */
+  z-index: -1;        /* places image behind other content */
+}
+
+.hero-button{
+  position: absolute;
+  top: 60%;
+  left: 25%;
+  width: 40%;
+  transform: translate(-50%, -50%);
+  padding: 15px 30px;
+  font-size: 1.5rem;
+  background-color: #492110;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+}

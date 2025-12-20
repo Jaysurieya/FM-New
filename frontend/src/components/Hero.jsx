@@ -1,6 +1,5 @@
 ﻿import '../css/Hero.css'
-import { BackgroundBeams } from "./BackgroundBeams";
-import { TypewriterEffect } from "./TypewriterEffect";
+// import { BackgroundBeams } from "./BackgroundBeams";
 import AnimatedContent from "./AnimatedContent/AnimatedContent";
 import ShinyText from './ShinyText/ShinyText';
 import { useNavigate } from 'react-router-dom';

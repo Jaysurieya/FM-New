@@ -110,11 +110,13 @@ export function AuthPage() {
         </div>
       </div>
       <div className="rightPanel">
-        <Button variant="ghost" className="homeBtn" asChild>
-          <a href="#">
-            <ChevronLeftIcon className="homeIcon" />
-            Home
-          </a>
+        <Button
+          variant="ghost"
+          className="homeBtn"
+          onClick={() => navigate("/")}
+        >
+          <ChevronLeftIcon className="homeIcon" />
+          Home
         </Button>
         <div className="container">
           {/* <div className="brandRowMobile">
