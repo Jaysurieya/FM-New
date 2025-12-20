@@ -19,7 +19,7 @@ function History() {
         }
 
         const res = await axios.get(
-          "http://localhost:5000/api/history/fetch",
+          "https://fm-new-2.onrender.com/api/history/fetch",
           {
             headers: {
               Authorization: `Bearer ${token}`

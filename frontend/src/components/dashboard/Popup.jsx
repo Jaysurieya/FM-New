@@ -131,7 +131,7 @@ function Popup({onClose, videoRef: externalVideoRef,onAddNutrition}) {
         }
 
         // Send to ML backend
-        const res = await fetch("http://127.0.0.1:5001/predict", {
+        const res = await fetch("https://fm-new.onrender.com/predict", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ image: pixels }),
@@ -161,7 +161,7 @@ function Popup({onClose, videoRef: externalVideoRef,onAddNutrition}) {
      */
     const fetchNutritionFromCSV = async (foodName) => {
       try {
-        const response = await fetch("http://localhost:5000/api/nutrition/fetch", {
+        const response = await fetch("https://fm-new-2.onrender.com/api/nutrition/fetch", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ foodName })

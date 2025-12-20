@@ -5,7 +5,7 @@ import Details from './Details';
 import "@fontsource/alkatra"; 
 import plate from '../../assets/final_plate_3.svg';
 import upload from '../../assets/final_upload.svg';
-import './css/Dashboard.css';
+import './css/dashboard.css';
 import Popup from './Popup';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
@@ -32,7 +32,7 @@ function Dashboard() {
         if (!token) return;
 
         const res = await axios.post(
-          "http://localhost:5000/api/nutrition/fetch_T_details",
+          "https://fm-new-2.onrender.com/api/nutrition/fetch_T_details",
           {}, // no body needed
           {
             headers: {
@@ -80,7 +80,7 @@ function Dashboard() {
       console.log("TOKEN 👉", token);
 
       const res = await axios.post(
-        "http://localhost:5000/api/nutrition/add",
+        "https://fm-new-2.onrender.com/api/nutrition/add",
         {
           name: nutrition.Food,     // food name
           protein: nutrition.protein,

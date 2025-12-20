@@ -96,7 +96,7 @@ export default function ProfilePage() {
     }
     const fetchProfile = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/details/profile', {
+        const res = await axios.get('https://fm-new-2.onrender.com/api/details/profile', {
           headers: { Authorization: `Bearer ${token}` }
         });
         setData(res.data);

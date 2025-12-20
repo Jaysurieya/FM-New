@@ -68,7 +68,7 @@ export default function Water_Tracker({
     try {
       const token = localStorage.getItem("fitmate_token");
       const res = await axios.post(
-        "http://localhost:5000/api/nutrition/water",
+        "https://fm-new-2.onrender.com/api/nutrition/water",
         { amount },
         {
           headers: {
@@ -92,7 +92,7 @@ export default function Water_Tracker({
 
         // POST to protected endpoint that returns today's nutrition log
         const res = await axios.post(
-          "http://localhost:5000/api/nutrition/fetch_T_details",
+          "https://fm-new-2.onrender.com/api/nutrition/fetch_T_details",
           {},
           {
             headers: {

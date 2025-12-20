@@ -8,7 +8,7 @@ import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 import { ChevronLeftIcon, Salad } from "lucide-react";
-import { Input } from "./input";
+import { Input } from "./Input";
 
 export function AuthPage() {
 
@@ -27,7 +27,7 @@ export function AuthPage() {
     const idToken = await result.user.getIdToken();
 
     // 📡 Send token to backend
-    const res = await fetch("http://localhost:5000/api/auth/google", {
+    const res = await fetch("https://fm-new-2.onrender.com/api/auth/google", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -57,7 +57,7 @@ export function AuthPage() {
 
   const handleEmailAuth = async () => {
   try {
-    const res = await fetch("http://localhost:5000/api/auth/email-auth", {
+    const res = await fetch("https://fm-new-2.onrender.com/api/auth/email-auth", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

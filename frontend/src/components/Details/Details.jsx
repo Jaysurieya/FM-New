@@ -107,7 +107,7 @@ export const Details = () => {
                             bmi: calculateBMI()
                         };
 
-                        const response = await fetch('http://localhost:5000/api/details/details_cu', {
+                        const response = await fetch('https://fm-new-2.onrender.com/api/details/details_cu', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
