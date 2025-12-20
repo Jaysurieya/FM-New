@@ -1,4 +1,4 @@
-const User = require('../models/mongooseSchema');
+const User = require('../Models/mongooseSchema');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const admin = require("../config/firebaseAdmin");

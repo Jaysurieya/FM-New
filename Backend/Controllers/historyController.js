@@ -1,4 +1,4 @@
-const NutritionLog = require("../models/Nutrition");
+const NutritionLog = require("../Models/Nutrition");
 
 exports.getNutritionHistory = async (req, res) => {
   try {

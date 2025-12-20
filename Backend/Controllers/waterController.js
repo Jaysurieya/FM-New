@@ -1,4 +1,4 @@
-const NutritionLog = require("../models/Nutrition");
+const NutritionLog = require("../Models/Nutrition");
 
 // helper → YYYY-MM-DD
 const getTodayDate = () => new Date().toISOString().split("T")[0];

@@ -1,4 +1,4 @@
-const NutritionLog = require("../models/Nutrition");
+const NutritionLog = require("../Models/Nutrition");
 
 // helper to get local YYYY-MM-DD (not UTC)
 const getTodayDate = () => {
