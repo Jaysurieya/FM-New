@@ -7,7 +7,7 @@ const authRoutes = require('./routes/authRoutes');
 const detailsRoutes = require('./routes/detailsRoutes');
 const nutritionRoutes = require('./routes/nutritionRoutes');
 const dotenv = require('dotenv');
-const connectDB = require('./mongoConnect');
+const connectDB = require('./Mongoconnect');
 
 connectDB();
 
