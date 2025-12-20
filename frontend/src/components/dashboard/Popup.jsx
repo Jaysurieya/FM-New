@@ -153,6 +153,42 @@ function Popup({onClose, videoRef: externalVideoRef,onAddNutrition}) {
       }
     };
 
+//   const sendImageToModel = async () => {
+//   if (!imagePreview) return;
+
+//   setLoading(true);
+//   setPrediction(null);
+
+//   try {
+//     // 🔹 Convert base64 imagePreview → Blob
+//     const blob = await fetch(imagePreview).then(res => res.blob());
+
+//     // 🔹 Create FormData and attach image
+//     const formData = new FormData();
+//     formData.append("image", blob, "image.jpg");
+
+//     // 🔹 Send to ML backend (NO headers!)
+//     const res = await fetch("https://fm-new.onrender.com/predict", {
+//       method: "POST",
+//       body: formData,
+//     });
+
+//     if (!res.ok) throw new Error("Prediction failed");
+
+//     const data = await res.json();
+//     setPrediction(data);
+
+//     await fetchNutritionFromCSV(data.class);
+//     setNutrients(prev => ({ ...prev, Food: data.class }));
+
+//   } catch (err) {
+//     console.error(err);
+//     alert("Prediction failed. Try again.");
+//   } finally {
+//     setLoading(false);
+//   }
+// };
+
 
     /**
      * Sends food name to Gemini AI,

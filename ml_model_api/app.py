@@ -37,6 +37,11 @@ except Exception as e:
     print(f"❌ Error loading files: {e}")
     print(f"Please ensure '{MODEL_PATH}' and '{CLASS_INDICES_PATH}' are in the same folder as app.py.")
 
+#test 
+@app.route('/', methods=['GET'])
+def home():
+    return jsonify({'status': 'ML API is running 🚀'})
+
 # --- 3. Create the /predict Endpoint ---
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -45,9 +50,11 @@ def predict():
         return jsonify({'error': 'Model or labels not loaded, check server logs.'}), 500
 
     # Get the image data from the request
-    data = request.get_json()
-    if 'image' not in data:
+    data = request.get_json(silent=True)
+
+    if not data or 'image' not in data:
         return jsonify({'error': 'No image data found in request'}), 400
+
 
     try:
         # The frontend sends a flat array of normalized pixel values (0 to 1)
