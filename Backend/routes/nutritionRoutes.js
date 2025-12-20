@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { getNutrition } = require('../controllers/nutritionController');
-const { addNutrition } = require('../controllers/nutritionaddController');
+const { getNutrition } = require('../Controllers/nutritionController');
+const { addNutrition } = require('../Controllers/nutritionaddController');
 const addMiddleware = require('../middleware/addMiddleware');
 const fetchTDetailsController = require('../Controllers/dailyFetchController');
 const { updateWater,getTodayWater } = require('../Controllers/waterController');
