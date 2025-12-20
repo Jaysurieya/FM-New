@@ -9,7 +9,17 @@ from flask_cors import CORS
 
 # --- 1. Configuration ---
 app = Flask(__name__)
-CORS(app) 
+CORS(
+    app,
+    resources={
+        r"/*": {
+            "origins": [
+                "https://fm-new-3.onrender.com"
+            ]
+        }
+    }
+)
+
 
 # The names of the files you have saved
 MODEL_PATH = 'food_classifier_final_model.keras'
