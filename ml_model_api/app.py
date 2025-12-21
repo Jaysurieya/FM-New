@@ -6,19 +6,23 @@ import tensorflow as tf
 import json
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import logging
 
 # --- 1. Configuration ---
 app = Flask(__name__)
 CORS(
     app,
-    resources={
-        r"/*": {
-            "origins": [
-                "https://fm-new-3.onrender.com"
-            ]
-        }
-    }
+    origins=["https://fm-new-3.onrender.com"],
+    methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type"],
 )
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)s | %(message)s"
+)
+
+logger = logging.getLogger(__name__)
 
 
 # The names of the files you have saved
@@ -53,54 +57,57 @@ def home():
     return jsonify({'status': 'ML API is running 🚀'})
 
 # --- 3. Create the /predict Endpoint ---
-@app.route('/predict', methods=['POST'])
+@app.route('/predict', methods=['POST', 'OPTIONS'])
 def predict():
-    # Check if the model and labels loaded correctly
+    logger.info("📥 /predict endpoint hit")
+
+    # Handle preflight request
+    if request.method == 'OPTIONS':
+        logger.info("🟡 OPTIONS preflight request received")
+        return '', 204
+
     if model is None or labels is None:
-        return jsonify({'error': 'Model or labels not loaded, check server logs.'}), 500
-
-    # Get the image data from the request
-    data = request.get_json(silent=True)
-
-    if not data or 'image' not in data:
-        return jsonify({'error': 'No image data found in request'}), 400
-
+        logger.error("❌ Model or labels not loaded")
+        return jsonify({'error': 'Model or labels not loaded'}), 500
 
     try:
-        # The frontend sends a flat array of normalized pixel values (0 to 1)
+        data = request.get_json(silent=True)
+        logger.info(f"📦 Request JSON keys: {list(data.keys()) if data else 'NO DATA'}")
+
+        if not data or 'image' not in data:
+            logger.warning("⚠️ No image found in request")
+            return jsonify({'error': 'No image data found'}), 400
+
         image_array = np.array(data['image'])
-        
-        # --- 4. Preprocess the Image EXACTLY as in your notebook ---
-        
-        # a. Reshape the flat array back into an image format (height, width, channels)
+        logger.info(f"🖼️ Image array shape (flat): {image_array.shape}")
+
         image_reshaped = image_array.reshape(224, 224, 3)
-        
-        # b. Scale pixel values from [0, 1] to [0, 255] because the preprocess_input function expects this range
+        logger.info("🔄 Image reshaped to 224x224x3")
+
         image_scaled = image_reshaped * 255.0
-        
-        # c. Add a batch dimension to make the shape (1, 224, 224, 3)
         img_batch = np.expand_dims(image_scaled, axis=0)
-        
-        # d. Apply the specific preprocessing for EfficientNetV2
+
         img_preprocessed = tf.keras.applications.efficientnet_v2.preprocess_input(img_batch)
+        logger.info("⚙️ Image preprocessing completed")
 
-        # --- 5. Make a Prediction ---
         prediction = model.predict(img_preprocessed)
-        
-        predicted_index = int(np.argmax(prediction[0])) # Convert to standard Python int
-        predicted_class_name = labels[predicted_index]
-        confidence = float(np.max(prediction[0]) * 100) # Convert to standard Python float
+        logger.info(f"📊 Raw prediction output: {prediction}")
 
-        # Create the response
-        response = {
+        predicted_index = int(np.argmax(prediction[0]))
+        predicted_class_name = labels[predicted_index]
+        confidence = float(np.max(prediction[0]) * 100)
+
+        logger.info(f"✅ Prediction success: {predicted_class_name} ({confidence:.2f}%)")
+
+        return jsonify({
             'class': predicted_class_name,
             'confidence': round(confidence, 2)
-        }
-        return jsonify(response)
+        })
 
     except Exception as e:
-        print(f"Prediction Error: {e}")
-        return jsonify({'error': 'Could not process the image for prediction.'}), 500
+        logger.exception("🔥 Prediction failed with exception")
+        return jsonify({'error': 'Prediction failed'}), 500
+
 
 # --- 6. Run the Flask Application ---
 if __name__ == '__main__':
