@@ -79,6 +79,13 @@ def predict():
             return jsonify({'error': 'No image data found'}), 400
 
         image_array = np.array(data['image'])
+        print("Image length:", len(image_array), flush=True)
+
+        if image_array.size != 224*224*3:
+            return jsonify({
+                "error": "Invalid image size",
+                "received": int(image_array.size)
+            }), 400
         logger.info(f"🖼️ Image array shape (flat): {image_array.shape}")
 
         image_reshaped = image_array.reshape(224, 224, 3)
