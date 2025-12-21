@@ -1,15 +1,17 @@
 # app.py
-# .\venv\Scripts\Activate.ps1
 
 import numpy as np
 import tensorflow as tf
 import json
+import logging
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import logging
 
-# --- 1. Configuration ---
+# --------------------------------------------------
+# 1. Flask App & CORS
+# --------------------------------------------------
 app = Flask(__name__)
+
 CORS(
     app,
     origins=["https://fm-new-3.onrender.com"],
@@ -17,105 +19,129 @@ CORS(
     allow_headers=["Content-Type"],
 )
 
+# --------------------------------------------------
+# 2. Logging Configuration (RENDER + GUNICORN SAFE)
+# --------------------------------------------------
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s | %(levelname)s | %(message)s"
+    format="%(asctime)s | %(levelname)s | %(message)s",
 )
 
 logger = logging.getLogger(__name__)
+logger.info("🚀 Flask app starting up")
 
+# --------------------------------------------------
+# 3. Model Configuration
+# --------------------------------------------------
+MODEL_PATH = "food_classifier_final_model.keras"
+CLASS_INDICES_PATH = "class_indices.json"
 
-# The names of the files you have saved
-MODEL_PATH = 'food_classifier_final_model.keras'
-CLASS_INDICES_PATH = 'class_indices.json'
 model = None
 labels = None
 
-# --- 2. Load Model and Labels (once at startup) ---
+# --------------------------------------------------
+# 4. Load Model & Labels ONCE
+# --------------------------------------------------
 try:
-    print(f"🧠 Loading model from: {MODEL_PATH}")
-    # Load the entire model
+    logger.info(f"🧠 Loading model from {MODEL_PATH}")
     model = tf.keras.models.load_model(MODEL_PATH)
-    
-    print(f"🏷️ Loading class labels from: {CLASS_INDICES_PATH}")
-    # Load the dictionary that maps class names to indices
-    with open(CLASS_INDICES_PATH, 'r') as f:
+
+    logger.info(f"🏷️ Loading class indices from {CLASS_INDICES_PATH}")
+    with open(CLASS_INDICES_PATH, "r") as f:
         class_indices = json.load(f)
-    
-    # Invert the dictionary to map indices back to class names (e.g., {0: 'biriyani'})
+
     labels = {v: k for k, v in class_indices.items()}
-    
-    print("✅ Model and labels loaded successfully!")
+    logger.info("✅ Model and labels loaded successfully")
 
 except Exception as e:
-    print(f"❌ Error loading files: {e}")
-    print(f"Please ensure '{MODEL_PATH}' and '{CLASS_INDICES_PATH}' are in the same folder as app.py.")
+    logger.exception("❌ Failed to load model or labels")
 
-#test 
-@app.route('/', methods=['GET'])
+# --------------------------------------------------
+# 5. Health Check Route
+# --------------------------------------------------
+@app.route("/", methods=["GET"])
 def home():
-    return jsonify({'status': 'ML API is running 🚀'})
+    logger.info("🏠 Health check hit")
+    return jsonify({"status": "ML API is running 🚀"})
 
-# --- 3. Create the /predict Endpoint ---
-@app.route('/predict', methods=['POST', 'OPTIONS'])
+# --------------------------------------------------
+# 6. Predict Route
+# --------------------------------------------------
+@app.route("/predict", methods=["POST", "OPTIONS"])
 def predict():
     logger.info("📥 /predict endpoint hit")
 
-    # Handle preflight request
-    if request.method == 'OPTIONS':
-        logger.info("🟡 OPTIONS preflight request received")
-        return '', 204
+    # Handle CORS preflight
+    if request.method == "OPTIONS":
+        logger.info("🟡 OPTIONS preflight request")
+        return "", 204
 
     if model is None or labels is None:
         logger.error("❌ Model or labels not loaded")
-        return jsonify({'error': 'Model or labels not loaded'}), 500
+        return jsonify({"error": "Model not loaded"}), 500
 
     try:
         data = request.get_json(silent=True)
-        logger.info(f"📦 Request JSON keys: {list(data.keys()) if data else 'NO DATA'}")
+        logger.info(
+            f"📦 Request JSON keys: {list(data.keys()) if data else 'NO DATA'}"
+        )
 
-        if not data or 'image' not in data:
+        if not data or "image" not in data:
             logger.warning("⚠️ No image found in request")
-            return jsonify({'error': 'No image data found'}), 400
+            return jsonify({"error": "No image data found"}), 400
 
-        image_array = np.array(data['image'])
-        print("Image length:", len(image_array), flush=True)
+        image_array = np.array(data["image"])
+        logger.info(f"🖼️ Image array length: {image_array.size}")
 
-        if image_array.size != 224*224*3:
-            return jsonify({
-                "error": "Invalid image size",
-                "received": int(image_array.size)
-            }), 400
-        logger.info(f"🖼️ Image array shape (flat): {image_array.shape}")
+        expected_size = 224 * 224 * 3
+        if image_array.size != expected_size:
+            logger.warning(
+                f"⚠️ Invalid image size: received {image_array.size}, expected {expected_size}"
+            )
+            return jsonify(
+                {
+                    "error": "Invalid image size",
+                    "received": int(image_array.size),
+                    "expected": expected_size,
+                }
+            ), 400
 
+        # Preprocessing
         image_reshaped = image_array.reshape(224, 224, 3)
-        logger.info("🔄 Image reshaped to 224x224x3")
-
         image_scaled = image_reshaped * 255.0
         img_batch = np.expand_dims(image_scaled, axis=0)
 
-        img_preprocessed = tf.keras.applications.efficientnet_v2.preprocess_input(img_batch)
+        img_preprocessed = tf.keras.applications.efficientnet_v2.preprocess_input(
+            img_batch
+        )
+
         logger.info("⚙️ Image preprocessing completed")
 
+        # Prediction
         prediction = model.predict(img_preprocessed)
-        logger.info(f"📊 Raw prediction output: {prediction}")
-
         predicted_index = int(np.argmax(prediction[0]))
-        predicted_class_name = labels[predicted_index]
+        predicted_class = labels[predicted_index]
         confidence = float(np.max(prediction[0]) * 100)
 
-        logger.info(f"✅ Prediction success: {predicted_class_name} ({confidence:.2f}%)")
+        logger.info(
+            f"✅ Prediction success → {predicted_class} ({confidence:.2f}%)"
+        )
 
-        return jsonify({
-            'class': predicted_class_name,
-            'confidence': round(confidence, 2)
-        })
+        return jsonify(
+            {
+                "class": predicted_class,
+                "confidence": round(confidence, 2),
+            }
+        )
 
-    except Exception as e:
-        logger.exception("🔥 Prediction failed with exception")
-        return jsonify({'error': 'Prediction failed'}), 500
+    except Exception:
+        logger.exception("🔥 Prediction failed due to exception")
+        return jsonify({"error": "Prediction failed"}), 500
 
 
-# --- 6. Run the Flask Application ---
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001, debug=True)
+# --------------------------------------------------
+# 7. Local Development Entry Point
+# --------------------------------------------------
+if __name__ == "__main__":
+    logger.info("🧪 Running Flask in debug mode (local only)")
+    app.run(host="0.0.0.0", port=5001, debug=True)
