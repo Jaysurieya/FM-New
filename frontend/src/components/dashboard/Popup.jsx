@@ -131,27 +131,27 @@ function Popup({onClose, videoRef: externalVideoRef,onAddNutrition}) {
         }
 
         // Send to ML backend
-        const res = await fetch(" http://127.0.0.1:5001/predict", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ image: pixels }),
-        });
+          const res = await fetch("https://fm-new.onrender.com/predict", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ image: pixels }),
+          });
 
-        if (!res.ok) throw new Error("Prediction failed");
+          if (!res.ok) throw new Error("Prediction failed");
 
-        const data = await res.json();
-        setPrediction(data);
+          const data = await res.json();
+          setPrediction(data);
 
-        await fetchNutritionFromCSV(data.class);
-        setNutrients(prev => ({ ...prev, Food: data.class }));
+          await fetchNutritionFromCSV(data.class);
+          setNutrients(prev => ({ ...prev, Food: data.class }));
 
-      } catch (err) {
-        console.error(err);
-        alert("Prediction failed. Try again.");
-      } finally {
-        setLoading(false);
-      }
-    };
+        } catch (err) {
+          console.error(err);
+          alert("Prediction failed. Try again.");
+        } finally {
+          setLoading(false);
+        }
+      };
 
 //   const sendImageToModel = async () => {
 //   if (!imagePreview) return;
