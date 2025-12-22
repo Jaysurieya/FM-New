@@ -16,7 +16,7 @@ CORS(
     resources={
         r"/*": {
             "origins": [
-                "https://fm-new.onrender.com"
+                "https://fm-new-3.onrender.com"
             ]
         }
     }
