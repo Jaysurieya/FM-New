@@ -18,7 +18,7 @@ const app = express();
 
 // ✅ CORRECT CORS (NO app.options("*"))
 app.use(cors({
-  origin: "https://fm-new-3.onrender.com",
+  origin: ["https://fm-new-3.onrender.com", "http://localhost:5173"],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true

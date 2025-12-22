@@ -13,7 +13,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 
 # ✅ ONE AND ONLY CORS CONFIG (DO NOT ADD ANYTHING ELSE)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, resources={r"/*": {"origins": ["http://localhost:5173", "*"]}})
 
 # --------------------------------------------------
 # 2. Logging
