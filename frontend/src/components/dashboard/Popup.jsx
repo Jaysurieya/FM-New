@@ -200,7 +200,12 @@ function Popup({onClose, videoRef: externalVideoRef,onAddNutrition}) {
       }
     );
 
-    if (!res.ok) throw new Error("Prediction failed");
+    if (!res.ok) {
+      const err = await res.json();
+      console.error("Backend error:", err);
+      throw new Error(err.error || "Prediction failed");
+    }
+
 
     const data = await res.json();
     setPrediction(data);
