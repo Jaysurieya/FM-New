@@ -14,9 +14,7 @@ app = Flask(__name__)
 
 CORS(
     app,
-    origins=["https://fm-new-3.onrender.com"],
-    methods=["GET", "POST", "OPTIONS"],
-    allow_headers=["Content-Type"],
+    resources={r"/*": {"origins": "*"}},
 )
 
 # --------------------------------------------------
