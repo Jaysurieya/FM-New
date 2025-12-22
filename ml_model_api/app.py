@@ -4,7 +4,7 @@ import numpy as np
 import tensorflow as tf
 import json
 import logging
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, make_response
 from flask_cors import CORS
 
 # --------------------------------------------------
@@ -72,7 +72,7 @@ def predict():
     # Handle CORS preflight
     if request.method == "OPTIONS":
         logger.info("🟡 OPTIONS preflight request")
-        return "", 204
+        return make_response(("", 204))
 
     if model is None or labels is None:
         logger.error("❌ Model or labels not loaded")
@@ -135,6 +135,19 @@ def predict():
     except Exception:
         logger.exception("🔥 Prediction failed due to exception")
         return jsonify({"error": "Prediction failed"}), 500
+
+
+# Ensure CORS headers are always present (covers any handler including preflight)
+@app.after_request
+def add_cors_headers(response):
+    response.headers.setdefault("Access-Control-Allow-Origin", "*")
+    response.headers.setdefault(
+        "Access-Control-Allow-Headers", "Content-Type,Authorization"
+    )
+    response.headers.setdefault(
+        "Access-Control-Allow-Methods", "GET,POST,OPTIONS"
+    )
+    return response
 
 
 # --------------------------------------------------
