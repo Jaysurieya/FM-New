@@ -97,61 +97,125 @@ function Popup({onClose, videoRef: externalVideoRef,onAddNutrition}) {
     const [image,setImage] = useState(false);
 
 
-    const sendImageToModel = async () => {
-      if (!imagePreview) return;
+    // const sendImageToModel = async () => {
+    //   if (!imagePreview) return;
 
-      setLoading(true);
-      setPrediction(null);
+    //   setLoading(true);
+    //   setPrediction(null);
 
-      try {
-        // Load image
-        const img = new Image();
-        img.src = imagePreview;
-        await new Promise(res => (img.onload = res));
+    //   try {
+    //     // Load image
+    //     const img = new Image();
+    //     img.src = imagePreview;
+    //     await new Promise(res => (img.onload = res));
 
-        // Create 224x224 canvas
-        const canvas = document.createElement("canvas");
-        canvas.width = 224;
-        canvas.height = 224;
-        const ctx = canvas.getContext("2d");
+    //     // Create 224x224 canvas
+    //     const canvas = document.createElement("canvas");
+    //     canvas.width = 224;
+    //     canvas.height = 224;
+    //     const ctx = canvas.getContext("2d");
 
-        ctx.drawImage(img, 0, 0, 224, 224);
+    //     ctx.drawImage(img, 0, 0, 224, 224);
 
-        // Extract pixels
-        const imageData = ctx.getImageData(0, 0, 224, 224).data;
+    //     // Extract pixels
+    //     const imageData = ctx.getImageData(0, 0, 224, 224).data;
 
-        // RGBA → normalized RGB
-        const pixels = [];
-        for (let i = 0; i < imageData.length; i += 4) {
-          pixels.push(
-            imageData[i] / 255,
-            imageData[i + 1] / 255,
-            imageData[i + 2] / 255
-          );
-        }
+    //     // RGBA → normalized RGB
+    //     const pixels = [];
+    //     for (let i = 0; i < imageData.length; i += 4) {
+    //       pixels.push(
+    //         imageData[i] / 255,
+    //         imageData[i + 1] / 255,
+    //         imageData[i + 2] / 255
+    //       );
+    //     }
 
-        // Send to ML backend
-          const res = await fetch("https://fm-new.onrender.com/predict", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ image: pixels }),
-          });
+    //     // Send to ML backend
+    //       const res = await fetch("https://food-ml-api.onrender.com/predict", {
+    //         method: "POST",
+    //         headers: { "Content-Type": "application/json" },
+    //         body: JSON.stringify({ image: pixels }),
+    //       });
 
-          if (!res.ok) throw new Error("Prediction failed");
+    //       if (!res.ok) throw new Error("Prediction failed");
 
-          const data = await res.json();
-          setPrediction(data);
+    //       const data = await res.json();
+    //       setPrediction(data);
 
-          await fetchNutritionFromCSV(data.class);
-          setNutrients(prev => ({ ...prev, Food: data.class }));
+    //       await fetchNutritionFromCSV(data.class);
+    //       setNutrients(prev => ({ ...prev, Food: data.class }));
 
-        } catch (err) {
-          console.error(err);
-          alert("Prediction failed. Try again.");
-        } finally {
-          setLoading(false);
-        }
-      };
+    //     } catch (err) {
+    //       console.error(err);
+    //       alert("Prediction failed. Try again.");
+    //     } finally {
+    //       setLoading(false);
+    //     }
+    //   };
+
+
+  const sendImageToModel = async () => {
+  if (!imagePreview) return;
+
+  setLoading(true);
+  setPrediction(null);
+
+  try {
+    const img = new Image();
+    img.src = imagePreview;
+
+    await new Promise((res, rej) => {
+      img.onload = res;
+      img.onerror = rej;
+    });
+
+    const canvas = document.createElement("canvas");
+    canvas.width = 224;
+    canvas.height = 224;
+    const ctx = canvas.getContext("2d");
+
+    ctx.drawImage(img, 0, 0, 224, 224);
+
+    const imageData = ctx.getImageData(0, 0, 224, 224).data;
+
+    const pixels = [];
+    for (let i = 0; i < imageData.length; i += 4) {
+      pixels.push(
+        imageData[i] / 255,
+        imageData[i + 1] / 255,
+        imageData[i + 2] / 255
+      );
+    }
+
+    if (pixels.length !== 224 * 224 * 3) {
+      throw new Error("Invalid image preprocessing");
+    }
+
+    const res = await fetch(
+      "https://food-ml-api.onrender.com/predict",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ image: pixels }),
+      }
+    );
+
+    if (!res.ok) throw new Error("Prediction failed");
+
+    const data = await res.json();
+    setPrediction(data);
+
+    await fetchNutritionFromCSV(data.class);
+    setNutrients(prev => ({ ...prev, Food: data.class }));
+
+  } catch (err) {
+    console.error(err);
+    alert("Prediction failed. Try again.");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
 //   const sendImageToModel = async () => {
 //   if (!imagePreview) return;
