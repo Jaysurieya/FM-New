@@ -190,7 +190,7 @@ function Popup({onClose, videoRef: externalVideoRef,onAddNutrition}) {
     if (pixels.length !== 224 * 224 * 3) {
       throw new Error("Invalid image preprocessing");
     }
-
+    console.log("pixels length:", pixels.length);
     const res = await fetch(
       "https://food-ml-api.onrender.com/predict",
       {
