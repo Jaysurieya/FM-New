@@ -72,7 +72,11 @@ def predict():
     # Handle CORS preflight
     if request.method == "OPTIONS":
         logger.info("🟡 OPTIONS preflight request")
-        return make_response(("", 204))
+        resp = make_response(("", 204))
+        resp.headers["Access-Control-Allow-Origin"] = "*"
+        resp.headers["Access-Control-Allow-Headers"] = "Content-Type,Authorization"
+        resp.headers["Access-Control-Allow-Methods"] = "GET,POST,OPTIONS"
+        return resp
 
     if model is None or labels is None:
         logger.error("❌ Model or labels not loaded")
@@ -140,13 +144,9 @@ def predict():
 # Ensure CORS headers are always present (covers any handler including preflight)
 @app.after_request
 def add_cors_headers(response):
-    response.headers.setdefault("Access-Control-Allow-Origin", "*")
-    response.headers.setdefault(
-        "Access-Control-Allow-Headers", "Content-Type,Authorization"
-    )
-    response.headers.setdefault(
-        "Access-Control-Allow-Methods", "GET,POST,OPTIONS"
-    )
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type,Authorization"
+    response.headers["Access-Control-Allow-Methods"] = "GET,POST,OPTIONS"
     return response
 
 
