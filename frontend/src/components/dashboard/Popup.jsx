@@ -192,7 +192,7 @@ function Popup({onClose, videoRef: externalVideoRef,onAddNutrition}) {
     }
     console.log("pixels length:", pixels.length);
     const res = await fetch(
-      "https://food-ml-api.onrender.com/predict",
+      "http://127.0.0.1:8000/predict",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -203,9 +203,9 @@ function Popup({onClose, videoRef: externalVideoRef,onAddNutrition}) {
     if (!res.ok) {
       const err = await res.json();
       console.error("Backend error:", err);
-      throw new Error(err.error || "Prediction failed");
-    }
 
+      throw new Error(err.detail || JSON.stringify(err));
+    }
 
     const data = await res.json();
     setPrediction(data);
