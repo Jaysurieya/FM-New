@@ -42,7 +42,7 @@
   export default function FloatingChatbot() {
     // --- Integrated API Key ---
     // IMPORTANT: Replace "YOUR_API_KEY_HERE" with your actual Google Gemini API key.
-    const API_KEY = "AIzaSyAtVlPbAOii_M1gXCdwEFD400xXApJ3Ups";
+    const API_KEY = process.env.REACT_APP_GOOGLE_GEMINI_API_KEY;
 
     // --- State Management ---
     const [isOpen, setIsOpen] = useState(false);
