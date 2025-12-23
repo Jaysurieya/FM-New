@@ -192,7 +192,7 @@ function Popup({onClose, videoRef: externalVideoRef,onAddNutrition}) {
     }
     console.log("pixels length:", pixels.length);
     const res = await fetch(
-      "http://127.0.0.1:8000/predict",
+      "https://food-ml-api.onrender.com/predict",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
