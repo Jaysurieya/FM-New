@@ -406,7 +406,7 @@ function Dashboard() {
               : "14vw",
             bottom: screenWidth < 768
               ? "15vh"
-              : "18vh",
+              : "22vh",
             width: screenWidth < 768
               ? "40vw"
               : screenWidth < 1024
@@ -427,14 +427,16 @@ function Dashboard() {
               src={upload}
               alt="Plate"
               style={{
-                width: 300,
-                height: 300,
+                width: '100%',
+                height: '100%',
+                maxWidth: '100%',
+                maxHeight: '100%',
                 objectFit: 'contain',
                 opacity: 1,
                 userSelect: 'none',
                 pointerEvents: 'none',
                 display: 'block'
-              }} 
+              }}
             />
           </div>
           <div style={{paddingRight:"20px",paddingTop:"20px",zIndex:3,height:"100%",width:"100%"}}>
