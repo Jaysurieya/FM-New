@@ -205,7 +205,8 @@ function Dashboard() {
         height: '100vh',
         fontFamily: 'Alkatra',
         backgroundColor:'#FFE8D6',
-        border: '5px solid #492110',
+        borderTop: '5px solid #492110',
+        borderRight: '5px solid #492110',
         position: 'relative' // keeps absolutely-positioned plate inside this container
       }}>
         {/* Sidebar */}
@@ -353,42 +354,43 @@ function Dashboard() {
       <div style={{display:"flex",flexDirection:"row"}}>
           <div
             style={{
-              position: 'absolute',
-              left: 20,
+              position: "fixed",
+              left: "2vw",
               bottom: 0,
-              width: `${PLATE_WIDTH}px`,
-              height: `${PLATE_HEIGHT}px`,
-              display: 'flex',
-              alignItems: 'flex-end',
-              justifyContent: 'flex-start',
-              pointerEvents: 'none',
+              width: window.innerWidth < 768
+                ? "75vw"
+                : window.innerWidth < 1024
+                ? "55vw"
+                : window.innerWidth < 1440
+                ? "48vw"
+                : "48vw",
+              height: "auto",
+              aspectRatio: "7 / 6",
+              display: "block",
               zIndex: 2,
-              overflowY: 'hidden'
-              
+              userSelect: "none",
+              pointerEvents: "none"
             }}
           >
             <img
               src={plate}
               alt="Plate"
               style={{
-                width: `${PLATE_WIDTH}px`,
-                height: `${PLATE_HEIGHT}px`,
-                objectFit: 'contain',
-                opacity: 1,
-                userSelect: 'none',
-                pointerEvents: 'none',
-                display: 'block'
-              }} 
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+                display: "block",
+                opacity: 1
+              }}
             />
-          </div>
+          </div>  
           <div
-            
             onClick={() => setOpen(true)}
             style={{
               cursor: "pointer" ,
               position: 'absolute',
-              left: 190,
-              bottom: 165,
+              left: 210,
+              bottom: 175,
               width: 310,
               height: 210,
               display: 'flex',
@@ -412,7 +414,7 @@ function Dashboard() {
               }} 
             />
           </div>
-          <div style={{paddingRight:"20px",paddingTop:"20px",zIndex:3}}>
+          <div style={{paddingRight:"20px",paddingTop:"20px",zIndex:3,height:"100%",width:"100%"}}>
             <Details nutrients={nutrients} todayIntake={todayIntake}/>
           </div>
           
