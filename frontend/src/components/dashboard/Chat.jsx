@@ -82,7 +82,7 @@
       setError(null);
 
       // Route to get the backend-provided Gemini URL (includes the key)
-      const API_KEY_ROUTE = "http://localhost:5000/api/gemini/chat";
+      const API_KEY_ROUTE = "https://fm-new-2.onrender.com/api/gemini/chat";
 
       const payload = {
         contents: newMessages.map(msg => ({
