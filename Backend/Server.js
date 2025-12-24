@@ -10,6 +10,7 @@ const detailsRoutes = require('./routes/detailsRoutes');
 const nutritionRoutes = require('./routes/nutritionRoutes');
 const historyRoutes = require('./routes/historyRoutes');
 const connectDB = require('./Mongoconnect');
+const { auth } = require('firebase-admin');
 
 dotenv.config();
 connectDB();
@@ -31,6 +32,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/details', detailsRoutes);
 app.use('/api/nutrition', nutritionRoutes);
 app.use('/api/history', historyRoutes);
+app.use('/api/gemini', authRoutes); // Example route for Gemini chat
 
 // Start Server
 const PORT = process.env.PORT || 5000;

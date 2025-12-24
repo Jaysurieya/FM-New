@@ -41,8 +41,8 @@
 
   export default function FloatingChatbot() {
     // --- Integrated API Key ---
-    // IMPORTANT: Replace "YOUR_API_KEY_HERE" with your actual Google Gemini API key.
-    const API_KEY = process.env.REACT_APP_GOOGLE_GEMINI_API_KEY;
+    // // IMPORTANT: Replace "YOUR_API_KEY_HERE" with your actual Google Gemini API key.
+    // const API_KEY = process.env.REACT_APP_GOOGLE_GEMINI_API_KEY;
 
     // --- State Management ---
     const [isOpen, setIsOpen] = useState(false);
@@ -74,7 +74,6 @@
       if (e) e.preventDefault();
       if (!userInput.trim() || isLoading) return;
 
-      
       // Add user message to state
       const newMessages = [...messages, { role: 'user', text: userInput }];
       setMessages(newMessages);
@@ -82,8 +81,9 @@
       setIsLoading(true);
       setError(null);
 
-      // Prepare API request
-      const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
+      // Route to get the backend-provided Gemini URL (includes the key)
+      const API_KEY_ROUTE = "http://localhost:5000/api/gemini/chat";
+
       const payload = {
         contents: newMessages.map(msg => ({
           role: msg.role,
@@ -91,33 +91,54 @@
         })),
       };
 
-      // Make the API call
+      let response;
+
       try {
-        const response = await fetch(API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
+        // POST to backend which proxies the request to Gemini (keeps API key server-side)
+        try {
+          response = await fetch(API_KEY_ROUTE, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+        } catch (callErr) {
+          console.error('❌ Failed to call backend Gemini proxy:', callErr);
+          throw new Error('Failed to reach chat backend');
+        }
 
         if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error?.message || "An unknown error occurred.");
+          const errorText = await response.text();
+          console.error("❌ Gemini responded with error:", { status: response.status, body: errorText });
+          throw new Error(`Gemini error ${response.status}: ${errorText}`);
         }
 
         const data = await response.json();
-        const modelResponse = data.candidates?.[0]?.content?.parts?.[0]?.text;
-        
-        if (modelResponse) {
-          setMessages(prev => [...prev, { role: 'model', text: modelResponse }]);
+
+        // Parse common Gemini response structure (candidates -> content -> parts -> text)
+        const candidates = data?.candidates || [];
+        let modelResponse = '';
+        if (candidates.length) {
+          const parts = candidates[0]?.content?.parts || [];
+          modelResponse = parts.map(p => p.text).join(' ');
+        } else if (data.reply) {
+          modelResponse = data.reply;
         } else {
-          throw new Error("Received an empty response from the API.");
+          modelResponse = JSON.stringify(data);
         }
+
+        if (!modelResponse) {
+          throw new Error("Gemini returned empty reply");
+        }
+
+        setMessages(prev => [...prev, { role: 'model', text: modelResponse }] );
+
       } catch (err) {
         setError(err.message);
       } finally {
         setIsLoading(false);
       }
-    }, [userInput, isLoading, messages, API_KEY]);
+    }, [userInput, isLoading, messages]);
+
 
     const handleKeyPress = (e) => {
       if (e.key === 'Enter' && !e.shiftKey) {

@@ -14,75 +14,87 @@ export function AuthPage() {
 
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [isAuthProcessing, setIsAuthProcessing] = React.useState(false);
+  const [authError, setAuthError] = React.useState(null);
 
 
   const navigate = useNavigate();
   const [showSuccess, setShowSuccess] = React.useState(false);
 
   const handleGoogleLogin = async () => {
-  try {
-    const result = await signInWithPopup(auth, googleProvider);
+    try {
+      setIsAuthProcessing(true);
+      setAuthError(null);
 
-    // 🔑 Firebase ID token
-    const idToken = await result.user.getIdToken();
+      const result = await signInWithPopup(auth, googleProvider);
 
-    // 📡 Send token to backend
-    const res = await fetch("https://fm-new-2.onrender.com/api/auth/google", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ token: idToken }),
-    });
+      // 🔑 Firebase ID token
+      const idToken = await result.user.getIdToken();
 
-    const data = await res.json();
-    console.log(data);
-    if (!res.ok || !data?.success) {
-      throw new Error(data?.message || "Google signup failed");
+      // 📡 Send token to backend
+      const res = await fetch("https://fm-new-2.onrender.com/api/auth/google", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token: idToken }),
+      });
+
+      const data = await res.json();
+      console.log(data);
+      if (!res.ok || !data?.success) {
+        throw new Error(data?.message || "Google signup failed");
+      }
+
+      // 🪙 Save JWT and navigate based on user status
+      localStorage.setItem("fitmate_token", data.token);
+      setShowSuccess(true);
+      if (data.isNewUser) {
+        navigate("/details");
+      } else {
+        navigate("/dashboard");
+      }
+
+    } catch (error) {
+      setAuthError(error?.message || 'Google signup failed');
+    } finally {
+      setIsAuthProcessing(false);
     }
-
-    // 🪙 Save JWT and navigate based on user status
-    localStorage.setItem("fitmate_token", data.token);
-    setShowSuccess(true);
-    if (data.isNewUser) {
-      navigate("/details");
-    } else {
-      navigate("/dashboard");
-    }
-
-  } catch (error) {
-    alert(error?.message || "Google signup failed");
-  }
 };
 
   const handleEmailAuth = async () => {
-  try {
-    const res = await fetch("https://fm-new-2.onrender.com/api/auth/email-auth", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      setIsAuthProcessing(true);
+      setAuthError(null);
 
-    const data = await res.json();
-    console.log(data);
+      const res = await fetch("https://fm-new-2.onrender.com/api/auth/email-auth", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    if (!res.ok || !data.success) {
-      throw new Error(data.message || "Authentication failed");
+      const data = await res.json();
+      console.log(data);
+
+      if (!res.ok || !data.success) {
+        throw new Error(data.message || "Authentication failed");
+      }
+
+      localStorage.setItem("fitmate_token", data.token);
+
+      if (data.isNewUser) {
+        navigate("/details");      // 🆕 new user
+      } else {
+        navigate("/dashboard");   // 👤 existing user
+      }
+
+    } catch (err) {
+      setAuthError(err.message || 'Authentication failed');
+    } finally {
+      setIsAuthProcessing(false);
     }
-
-    localStorage.setItem("fitmate_token", data.token);
-
-    if (data.isNewUser) {
-      navigate("/details");      // 🆕 new user
-    } else {
-      navigate("/dashboard");   // 👤 existing user
-    }
-
-  } catch (err) {
-    alert(err.message);
-  }
 };
 
 
@@ -114,6 +126,7 @@ export function AuthPage() {
           variant="ghost"
           className="homeBtn"
           onClick={() => navigate("/")}
+          disabled={isAuthProcessing}
         >
           <ChevronLeftIcon className="homeIcon" />
           Home
@@ -143,6 +156,11 @@ export function AuthPage() {
           </div>
 
           <form>
+            {authError && (
+              <div className="mb-3 p-3 bg-red-50 border border-red-200 rounded-xl">
+                <p className="text-red-600 text-sm"><strong>Error:</strong> {authError}</p>
+              </div>
+            )}
             <p className="formText">
               Enter your email address to sign in or create an account
             </p>
@@ -153,6 +171,7 @@ export function AuthPage() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  disabled={isAuthProcessing}
                 />
               </div>
               <Input
@@ -160,6 +179,7 @@ export function AuthPage() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                disabled={isAuthProcessing}
               />
             </div>
 
@@ -167,6 +187,7 @@ export function AuthPage() {
               type="button"
               className="btnBlack"
               onClick={handleEmailAuth}
+              disabled={isAuthProcessing}
               style={{ cursor: "pointer" }}
             >
               <span>Continue With Email</span>
@@ -191,6 +212,15 @@ export function AuthPage() {
           </p>
         </div>
       </div>
+      {isAuthProcessing && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-white/60 backdrop-blur-sm" />
+          <div className="relative z-50 flex flex-col items-center">
+            <div className="w-14 h-14 rounded-full border-4 border-[#492110] border-t-transparent animate-spin" />
+            <p className="mt-3 text-sm text-slate-700">Processing… Please wait</p>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
