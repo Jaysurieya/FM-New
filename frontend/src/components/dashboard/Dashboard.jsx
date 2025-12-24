@@ -384,22 +384,37 @@ function Dashboard() {
               }}
             />
           </div>  
-          <div
-            onClick={() => setOpen(true)}
-            style={{
-              cursor: "pointer" ,
-              position: 'absolute',
-              left: 210,
-              bottom: 175,
-              width: 310,
-              height: 210,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-start',
-              // pointerEvents: 'none',
-              zIndex: 2
-            }}
-          >
+         <div
+          onClick={() => setOpen(true)}
+          style={{
+            cursor: "pointer",
+            position: "fixed",   // stable + no layout reflow
+            left: screenWidth < 768
+              ? "18vw"
+              : screenWidth < 1024
+              ? "14vw"
+              : screenWidth < 1440
+              ? "12vw"
+              : "10vw",
+            bottom: screenWidth < 768
+              ? "15vh"
+              : "20vh",
+            width: screenWidth < 768
+              ? "40vw"
+              : screenWidth < 1024
+              ? "28vw"
+              : screenWidth < 1440
+              ? "24vw"
+              : "20vw",
+            height: "auto",
+            aspectRatio: "3 / 2", // keeps design box ratio clean
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            zIndex: 2,
+            userSelect: "none"
+          }}
+        >
             <img
               src={upload}
               alt="Plate"
