@@ -160,7 +160,7 @@ function Dashboard() {
       // Attempt to inform backend to destroy session (best-effort)
       if (token) {
         const res = await axios.post(
-          'http://localhost:5000/api/auth/logout',
+          'https://fm-new-2.onrender.com/api/auth/logout',
           {},
           { headers: { Authorization: `Bearer ${token}` } }
         );
