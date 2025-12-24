@@ -27,6 +27,14 @@ function Dashboard() {
   const [logoutProcessing, setLogoutProcessing] = useState(false);
   const [logoutError, setLogoutError] = useState(null);
 
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => setScreenWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+
   useEffect(() => {
     const fetchTodayNutrition = async () => {
       try {
@@ -395,10 +403,10 @@ function Dashboard() {
               ? "14vw"
               : screenWidth < 1440
               ? "12vw"
-              : "10vw",
+              : "14vw",
             bottom: screenWidth < 768
               ? "15vh"
-              : "20vh",
+              : "18vh",
             width: screenWidth < 768
               ? "40vw"
               : screenWidth < 1024
