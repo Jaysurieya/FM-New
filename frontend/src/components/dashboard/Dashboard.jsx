@@ -24,6 +24,8 @@ function Dashboard() {
     Food: ''
   });
   const [todayIntake, setTodayIntake] = useState([]);
+  const [logoutProcessing, setLogoutProcessing] = useState(false);
+  const [logoutError, setLogoutError] = useState(null);
 
   useEffect(() => {
     const fetchTodayNutrition = async () => {
@@ -74,6 +76,40 @@ function Dashboard() {
     fetchTodayNutrition();
   }, []);
 
+  // Global axios response interceptor: if any request returns 401, clear auth and redirect
+  useEffect(() => {
+    const interceptor = axios.interceptors.response.use(
+      (resp) => resp,
+      (error) => {
+        const status = error?.response?.status;
+        if (status === 401) {
+          console.error('API request after logout or invalid token (401) - clearing auth state');
+          clearAuthStorage();
+          // navigate to auth page
+          try { navigate('/signup'); } catch(e){}
+        }
+        return Promise.reject(error);
+      }
+    );
+
+    return () => axios.interceptors.response.eject(interceptor);
+  }, []);
+
+  function clearAuthStorage() {
+    try {
+      localStorage.removeItem('fitmate_token');
+      sessionStorage.removeItem('fitmate_token');
+      // clear other possible keys
+      localStorage.removeItem('user');
+      // clear cookies by expiring them
+      document.cookie.split(';').forEach(function(c) { 
+        document.cookie = c.replace(/^ +/, '').replace(/=.*/, '=;expires=' + new Date(0).toUTCString() + ';path=/');
+      });
+    } catch (e) {
+      console.error('Failed clearing auth storage:', e);
+    }
+  }
+
    const handleAddNutrition = async (nutrition) => {
     try {
       const token = localStorage.getItem("fitmate_token");
@@ -112,6 +148,40 @@ function Dashboard() {
 
     } catch (error) {
       console.error("Failed to add nutrition:", error);
+    }
+  };
+
+  const handleLogout = async () => {
+    setLogoutError(null);
+    setLogoutProcessing(true);
+
+    const token = localStorage.getItem('fitmate_token');
+    try {
+      // Attempt to inform backend to destroy session (best-effort)
+      if (token) {
+        const res = await axios.post(
+          'http://localhost:5000/api/auth/logout',
+          {},
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        if (res.status !== 200 && res.status !== 204) {
+          throw new Error(`Logout endpoint returned ${res.status}`);
+        }
+      }
+
+      // Clear client-side auth tokens and sensitive state
+      clearAuthStorage();
+      setNutrients({ protein: 0, fats: 0, carbs: 0, fibre: 0, calories: 0, Food: '' });
+      setTodayIntake([]);
+
+      console.log('Logout successful');
+      navigate('/signup');
+    } catch (err) {
+      console.error('Logout failed:', err?.response || err.message || err);
+      setLogoutError(err?.response?.data?.message || err.message || 'Logout failed');
+      // keep tokens intact per requirement
+    } finally {
+      setLogoutProcessing(false);
     }
   };
   
@@ -237,7 +307,8 @@ function Dashboard() {
             borderTop: `1px solid #e5e5e5`
           }}>
             <NavItem icon={<UserRound size={20} />} label="Profile"  isExpanded={isExpanded} onClick={() => navigate('/profile')} />
-            <NavItem icon={<LogOut size={20} />} label="Logout"  isExpanded={isExpanded} />
+            <NavItem icon={<LogOut size={20} />} label="Logout"  isExpanded={isExpanded} onClick={() => 
+              handleLogout()} />
           </div>
         </div>
 

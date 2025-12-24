@@ -2,6 +2,7 @@ const User = require('../Models/mongooseSchema');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const admin = require("../config/firebaseAdmin");
+const TokenBlacklist = require('../Models/TokenBlacklist');
 
 exports.googleLogin = async (req, res) => {
   try {
@@ -89,6 +90,69 @@ exports.googleLogin = async (req, res) => {
       success: false,
       message: "Invalid or expired Firebase token",
     });
+  }
+};
+
+// Logout: blacklist the provided JWT and (optionally) revoke Firebase refresh tokens
+exports.logout = async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization || req.body?.token || req.query?.token;
+    let token = null;
+    if (authHeader && typeof authHeader === 'string' && authHeader.startsWith('Bearer ')) {
+      token = authHeader.split(' ')[1];
+    } else if (typeof authHeader === 'string') { 
+      token = authHeader;
+    }
+
+    if (!token) {
+      return res.status(400).json({ success: false, message: 'Authorization token required' });
+    }
+
+    if (!process.env.JWT_SECRET) {
+      return res.status(500).json({ success: false, message: 'JWT secret not configured' });
+    }
+
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (err) {
+      console.error('Logout token verify failed:', err);
+      return res.status(401).json({ success: false, message: 'Invalid or expired token' });
+    }
+
+    // compute expiry from token `exp` (seconds since epoch)
+    const expiresAt = decoded?.exp ? new Date(decoded.exp * 1000) : new Date(Date.now() + 7 * 24 * 3600 * 1000);
+
+    // store token in blacklist with TTL index
+    try {
+      await TokenBlacklist.create({ token, expiresAt });
+    } catch (err) {
+      // duplicate key means it's already blacklisted — treat as success
+      if (err.code === 11000) {
+        console.warn('Token already blacklisted');
+      } else {
+        console.error('Failed to save token blacklist:', err);
+        return res.status(500).json({ success: false, message: 'Failed to invalidate session' });
+      }
+    }
+
+    // If possible, also revoke Firebase refresh tokens for Google-linked users
+    try {
+      if (decoded?.id) {
+        const user = await User.findById(decoded.id).select('firebaseUid');
+        if (user?.firebaseUid) {
+          await admin.auth().revokeRefreshTokens(user.firebaseUid);
+        }
+      }
+    } catch (err) {
+      // log but don't fail logout because Firebase revocation is best-effort
+      console.error('Failed to revoke firebase refresh tokens:', err);
+    }
+
+    return res.status(200).json({ success: true, message: 'Logged out' });
+  } catch (err) {
+    console.error('Logout error:', err);
+    return res.status(500).json({ success: false, message: 'Server error during logout' });
   }
 };
 

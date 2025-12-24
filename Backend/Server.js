@@ -34,6 +34,10 @@ app.use('/api/nutrition', nutritionRoutes);
 app.use('/api/history', historyRoutes);
 app.use('/api/gemini', authRoutes); // Example route for Gemini chat
 
+// Ensure logout route is reachable even if router mounting changed
+const authController = require('./Controllers/authController');
+app.post('/api/auth/logout', authController.logout);
+
 // Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => {
