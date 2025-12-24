@@ -26,11 +26,12 @@
   flex-direction: column;
   border-right: 3px solid #492110;
   padding: 2.5rem;
+  display: flex;
 }
 
-@media (min-width: 1024px) {
+/* @media (min-width: 1024px) {
   .leftPanel { display: flex; }
-}
+} */
 
 .gradientOverlay {
   position: absolute;
@@ -90,3 +91,4 @@
 
 .svgFull { height: 100%; width: 100%; color: #0f172a; }
 @media (prefers-color-scheme: dark) { .svgFull { color: #000000; } }
+
